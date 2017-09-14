@@ -21,7 +21,6 @@ jobs:
     <<: *defaults
     docker:
       - image: cypress/base:8
-      - environment:
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
       - run: |
