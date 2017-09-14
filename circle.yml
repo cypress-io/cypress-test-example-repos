@@ -52,6 +52,20 @@ jobs:
           npm start &
           $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run
 
+  piechopper:
+    <<: *defaults
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-piechopper.git
+      - run: |
+          cd cypress-example-piechopper
+          npm install
+          npm install wait-on
+          npm install cypress@dev
+          bower install
+          grunt
+          grunt serve &
+          $(npm bin)/wait-on http://localhost:8080 && $(npm bin)/cypress run
+
 workflows:
   version: 2
   test-example-repos:
@@ -60,3 +74,4 @@ workflows:
       - recipes
       - todomvc
       - phonecat
+      - piechopper
