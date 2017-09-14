@@ -61,9 +61,8 @@ jobs:
           npm install
           npm install wait-on
           npm install cypress@dev
-          bower install
-          grunt
-          grunt serve &
+          npm run build
+          npm start &
           $(npm bin)/wait-on http://localhost:8080 && $(npm bin)/cypress run
 
 workflows:
