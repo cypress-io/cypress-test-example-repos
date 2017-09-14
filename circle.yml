@@ -50,7 +50,7 @@ jobs:
           npm install wait-on
           npm install cypress@dev
           npm start &
-          wait-on http://localhost:8000 && $(npm bin)/cypress run
+          $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run
 
 workflows:
   version: 2
