@@ -1,0 +1,24 @@
+version: 2
+
+defaults: &defaults
+  parallelism: 1
+  working_directory: ~/app
+
+jobs:
+  kitchensink:
+    <<: *defaults
+    docker:
+      - image: cypress/base:8
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
+      - run: |
+        cd cypress-example-kitchensink
+        npm install
+        npm install cypress@dev
+        cypress run
+
+workflows:
+  version: 2
+  test-cypress-installs:
+    jobs:
+      - kitchensink
