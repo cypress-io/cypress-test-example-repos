@@ -12,10 +12,10 @@ jobs:
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
       - run: |
-        cd cypress-example-kitchensink
-        npm install
-        npm install cypress@dev
-        cypress run
+          cd cypress-example-kitchensink
+          npm install
+          npm install cypress@dev
+          cypress run
 
 workflows:
   version: 2
