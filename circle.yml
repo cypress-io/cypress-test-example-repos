@@ -19,6 +19,6 @@ jobs:
 
 workflows:
   version: 2
-  test-cypress-installs:
+  test-example-repos:
     jobs:
       - kitchensink
