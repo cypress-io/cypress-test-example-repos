@@ -15,10 +15,24 @@ jobs:
           cd cypress-example-kitchensink
           npm install
           npm install cypress@dev
-          cypress run
+          $(npm bin)/cypress run
+
+  recipes:
+    <<: *defaults
+    docker:
+      - image: cypress/base:8
+      - environment:
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
+      - run: |
+          cd cypress-example-recipes
+          npm install
+          npm install cypress@dev
+          $(npm bin)/cypress run
 
 workflows:
   version: 2
   test-example-repos:
     jobs:
       - kitchensink
+      - recipes
