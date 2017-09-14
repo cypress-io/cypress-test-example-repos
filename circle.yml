@@ -40,6 +40,18 @@ jobs:
           npm start &
           $(npm bin)/cypress run
 
+  phonecat:
+    <<: *defaults
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-phonecat.git
+      - run: |
+          cd cypress-example-phonecat
+          npm install
+          npm install wait-on
+          npm install cypress@dev
+          npm start &
+          wait-on http://localhost:8000 && $(npm bin)/cypress run
+
 workflows:
   version: 2
   test-example-repos:
@@ -47,3 +59,4 @@ workflows:
       - kitchensink
       - recipes
       - todomvc
+      - phonecat
