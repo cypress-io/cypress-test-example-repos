@@ -3,12 +3,12 @@ version: 2
 defaults: &defaults
   parallelism: 1
   working_directory: ~/app
+  docker:
+    - image: cypress/base:8
 
 jobs:
   kitchensink:
     <<: *defaults
-    docker:
-      - image: cypress/base:8
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
       - run: |
@@ -20,12 +20,21 @@ jobs:
 
   recipes:
     <<: *defaults
-    docker:
-      - image: cypress/base:8
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
       - run: |
           cd cypress-example-recipes
+          npm install
+          npm install cypress@dev
+          npm start &
+          $(npm bin)/cypress run
+
+  todomvc:
+    <<: *defaults
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-todomvc.git
+      - run: |
+          cd cypress-example-todomvc
           npm install
           npm install cypress@dev
           npm start &
@@ -37,3 +46,4 @@ workflows:
     jobs:
       - kitchensink
       - recipes
+      - todomvc
