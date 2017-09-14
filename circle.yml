@@ -15,6 +15,7 @@ jobs:
           cd cypress-example-kitchensink
           npm install
           npm install cypress@dev
+          npm start &
           $(npm bin)/cypress run
 
   recipes:
@@ -27,6 +28,7 @@ jobs:
           cd cypress-example-recipes
           npm install
           npm install cypress@dev
+          npm start &
           $(npm bin)/cypress run
 
 workflows:
