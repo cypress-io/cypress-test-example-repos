@@ -11,12 +11,13 @@ jobs:
     <<: *defaults
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
-      - run: |
-          cd cypress-example-kitchensink
-          npm install
-          npm install cypress@dev
-          npm start &
-          $(npm bin)/cypress run
+      - run: cd cypress-example-kitchensink && npm install
+      - run: cd cypress-example-kitchensink && npm install cypress@dev
+      - run:
+          name: start server
+          command: cd cypress-example-kitchensink && npm start
+          background: true
+      - run: cd cypress-example-kitchensink && $(npm bin)/cypress run
 
   recipes:
     <<: *defaults
