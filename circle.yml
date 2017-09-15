@@ -5,6 +5,9 @@ defaults: &defaults
   working_directory: ~/app
   docker:
     - image: cypress/base:8
+      environment:
+        ## this enables colors + fixes failing unit tests
+        TERM: xterm
 
 jobs:
   kitchensink:
