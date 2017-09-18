@@ -4,7 +4,7 @@ defaults: &defaults
   parallelism: 1
   working_directory: ~/app
   docker:
-    - image: cypress/base:8
+    - image: cypress/internal:chrome61
 
 jobs:
   kitchensink:
@@ -38,7 +38,7 @@ jobs:
           npm install
           npm install cypress@dev
           npm start &
-          $(npm bin)/cypress run
+          $(npm bin)/cypress run --headed
 
   phonecat:
     <<: *defaults
@@ -50,7 +50,7 @@ jobs:
           npm install wait-on
           npm install cypress@dev
           npm start &
-          $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run
+          $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run --browser chrome
 
   piechopper:
     <<: *defaults
