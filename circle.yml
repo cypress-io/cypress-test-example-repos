@@ -5,18 +5,28 @@ defaults: &defaults
   working_directory: ~/app
   docker:
     - image: cypress/internal:chrome61
+      environment:
+        ## this enables colors + fixes failing unit tests
+        TERM: xterm
 
 jobs:
   kitchensink:
     <<: *defaults
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
-      - run: |
-          cd cypress-example-kitchensink
-          npm install
-          npm install cypress@dev
-          npm start &
-          $(npm bin)/cypress run
+      - restore_cache:
+          key: deps
+      - run: cd cypress-example-kitchensink && npm install
+      - save_cache:
+          key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
+          paths:
+            - cypress-example-kitchensink/node_modules
+      - run: cd cypress-example-kitchensink && npm install cypress@dev
+      - run:
+          name: start server
+          command: cd cypress-example-kitchensink && npm start
+          background: true
+      - run: cd cypress-example-kitchensink && $(npm bin)/cypress run
 
   recipes:
     <<: *defaults
