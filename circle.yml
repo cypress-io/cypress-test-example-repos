@@ -21,7 +21,8 @@ jobs:
           key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
             - cypress-example-kitchensink/node_modules
-      - run: cd cypress-example-kitchensink && npm install cypress@dev
+      - run: echo install $CYPRESS_NPM_PACKAGE_NAME
+      - run: cd cypress-example-kitchensink && npm install $CYPRESS_NPM_PACKAGE_NAME
       - run:
           name: start server
           command: cd cypress-example-kitchensink && npm start
@@ -35,7 +36,8 @@ jobs:
       - run: |
           cd cypress-example-recipes
           npm install
-          npm install cypress@dev
+          echo install $CYPRESS_NPM_PACKAGE_NAME
+          npm install $CYPRESS_NPM_PACKAGE_NAME
           npm start &
           $(npm bin)/cypress run
 
@@ -46,7 +48,8 @@ jobs:
       - run: |
           cd cypress-example-todomvc
           npm install
-          npm install cypress@dev
+          echo install $CYPRESS_NPM_PACKAGE_NAME
+          npm install $CYPRESS_NPM_PACKAGE_NAME
           npm start &
           $(npm bin)/cypress run --headed
 
@@ -58,7 +61,8 @@ jobs:
           cd cypress-example-phonecat
           npm install
           npm install wait-on
-          npm install cypress@dev
+          echo install $CYPRESS_NPM_PACKAGE_NAME
+          npm install $CYPRESS_NPM_PACKAGE_NAME
           npm start &
           $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run --browser chrome
 
@@ -70,7 +74,8 @@ jobs:
           cd cypress-example-piechopper
           npm install
           npm install wait-on
-          npm install cypress@dev
+          echo install $CYPRESS_NPM_PACKAGE_NAME
+          npm install $CYPRESS_NPM_PACKAGE_NAME
           npm run build
           npm start &
           $(npm bin)/wait-on http://localhost:8080 && $(npm bin)/cypress run
