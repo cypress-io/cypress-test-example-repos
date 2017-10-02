@@ -68,8 +68,8 @@ jobs:
           working_directory: cypress-example-phonecat
           command: npm install wait-on
       - run: |
-        echo install $CYPRESS_NPM_PACKAGE_NAME
-        echo and binary $CYPRESS_BINARY_VERSION
+          echo install $CYPRESS_NPM_PACKAGE_NAME
+          echo and binary $CYPRESS_BINARY_VERSION
       - run:
           name: Install new version of Cypress
           working_directory: cypress-example-phonecat
