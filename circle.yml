@@ -47,7 +47,7 @@ jobs:
       - run: git clone https://github.com/cypress-io/cypress-example-todomvc.git
       - run: |
           cd cypress-example-todomvc
-          npm install
+          CYPRESS_BINARY_VERSION= npm install
           echo install $CYPRESS_NPM_PACKAGE_NAME
           npm install $CYPRESS_NPM_PACKAGE_NAME
           npm start &
@@ -59,7 +59,7 @@ jobs:
       - run: git clone https://github.com/cypress-io/cypress-example-phonecat.git
       - run: |
           cd cypress-example-phonecat
-          npm install
+          CYPRESS_BINARY_VERSION= npm install
           npm install wait-on
           echo install $CYPRESS_NPM_PACKAGE_NAME
           npm install $CYPRESS_NPM_PACKAGE_NAME
@@ -72,7 +72,7 @@ jobs:
       - run: git clone https://github.com/cypress-io/cypress-example-piechopper.git
       - run: |
           cd cypress-example-piechopper
-          npm install
+          CYPRESS_BINARY_VERSION= npm install
           npm install wait-on
           echo install $CYPRESS_NPM_PACKAGE_NAME
           npm install $CYPRESS_NPM_PACKAGE_NAME
