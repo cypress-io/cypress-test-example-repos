@@ -62,6 +62,7 @@ jobs:
           CYPRESS_BINARY_VERSION= npm install || true
           npm install wait-on
           echo install $CYPRESS_NPM_PACKAGE_NAME
+          echo and binary $CYPRESS_BINARY_VERSION
           npm install $CYPRESS_NPM_PACKAGE_NAME
           npm start &
           $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run --browser chrome
