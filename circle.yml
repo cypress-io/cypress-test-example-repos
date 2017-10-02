@@ -8,6 +8,8 @@ defaults: &defaults
       environment:
         ## this enables colors + fixes failing unit tests
         TERM: xterm
+        # avoid million NPM install messages
+        npm_config_loglevel: warn
 
 jobs:
   kitchensink:
@@ -57,15 +59,39 @@ jobs:
     <<: *defaults
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-phonecat.git
+      - run:
+          name: Install default dependencies
+          working_directory: cypress-example-phonecat
+          command: CYPRESS_BINARY_VERSION= npm install || true
+      - run:
+          name: Install wait-on
+          working_directory: cypress-example-phonecat
+          command: npm install wait-on
       - run: |
-          cd cypress-example-phonecat
-          CYPRESS_BINARY_VERSION= npm install || true
-          npm install wait-on
-          echo install $CYPRESS_NPM_PACKAGE_NAME
-          echo and binary $CYPRESS_BINARY_VERSION
-          npm install $CYPRESS_NPM_PACKAGE_NAME
-          npm start &
-          $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run --browser chrome
+        echo install $CYPRESS_NPM_PACKAGE_NAME
+        echo and binary $CYPRESS_BINARY_VERSION
+      - run:
+          name: Install new version of Cypress
+          working_directory: cypress-example-phonecat
+          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+      - run:
+          name: Starting server
+          background: true
+          working_directory: cypress-example-phonecat
+          command: npm start
+      - run:
+          name: Run E2E tests
+          working_directory: cypress-example-phonecat
+          command: $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run --browser chrome
+      # - run: |
+      #     cd cypress-example-phonecat
+      #     CYPRESS_BINARY_VERSION= npm install || true
+      #     npm install wait-on
+      #     echo install $CYPRESS_NPM_PACKAGE_NAME
+      #     echo and binary $CYPRESS_BINARY_VERSION
+      #     npm install $CYPRESS_NPM_PACKAGE_NAME
+      #     npm start &
+      #     $(npm bin)/wait-on http://localhost:8000 && $(npm bin)/cypress run --browser chrome
 
   piechopper:
     <<: *defaults
