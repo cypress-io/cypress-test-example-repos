@@ -58,7 +58,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: $PiechopperServerProcess = Start-Process npm start -PassThru
+  - ps: $PhonecatServerProcess = Start-Process npm start -PassThru
   - npm install wait-on
   - .\node_modules\.bin\wait-on http://localhost:8000
   - echo "Starting Cypress run"
@@ -80,6 +80,7 @@ on_finish:
   - ps: Stop-Process -Id $KitchenSinkServerProcess.Id
   - ps: Stop-Process -Id $RecipesServerProcess.Id
   - ps: Stop-Process -Id $TodoMVCServerProcess.Id
+  - ps: Stop-Process -Id $PhonecatServerProcess.Id
   - ps: Stop-Process -Id $PiechopperServerProcess.Id
 
 # Don't actually build.
