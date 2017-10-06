@@ -40,9 +40,33 @@ test_script:
   - .\node_modules\.bin\cypress run
   - cd ..
 
+  - echo "*** cypress-example-todomvc ***"
+  - git clone https://github.com/cypress-io/cypress-example-todomvc.git
+  - cd cypress-example-todomvc
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - ps: $TodoMVCServerProcess = Start-Process npm start -PassThru
+  - .\node_modules\.bin\cypress run
+  - cd ..
+
+  - echo "*** cypress-example-piechopper ***"
+  - git clone https://github.com/cypress-io/cypress-example-piechopper.git
+  - cd cypress-example-piechopper
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - ps: $PiechopperServerProcess = Start-Process npm start -PassThru
+  - .\node_modules\.bin\cypress run
+  - cd ..
+
 on_finish:
   - ps: Stop-Process -Id $KitchenSinkServerProcess.Id
   - ps: Stop-Process -Id $RecipesServerProcess.Id
+  - ps: Stop-Process -Id $TodoMVCServerProcess.Id
+  - ps: Stop-Process -Id $PiechopperServerProcess.Id
 
 # Don't actually build.
 build: off
