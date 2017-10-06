@@ -18,11 +18,31 @@ install:
 
 # Post-install test scripts.
 test_script:
+  - echo "*** cypress-example-kitchensink ***"
   - git clone https://github.com/cypress-io/cypress-example-kitchensink.git
   - cd cypress-example-kitchensink
-  # only install the server package
+  # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - ps: $KitchenSinkServerProcess = Start-Process npm start -PassThru
+  - .\node_modules\.bin\cypress run
+  - cd ..
+
+  - echo "*** cypress-example-recipes ***"
+  - git clone https://github.com/cypress-io/cypress-example-recipes.git
+  - cd cypress-example-recipes
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - ps: $RecipesServerProcess = Start-Process npm start -PassThru
+  - .\node_modules\.bin\cypress run
+  - cd ..
+
+on_finish:
+  - ps: Stop-Process -Id $KitchenSinkServerProcess.Id
+  - ps: Stop-Process -Id $RecipesServerProcess.Id
 
 # Don't actually build.
 build: off
