@@ -25,7 +25,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - npm start
+  - ps: $RecipesServerProcess = Start-Process npm start -PassThru
   - .\node_modules\.bin\cypress run
   - ps: Stop-Process -Id $RecipesServerProcess.Id
   - cd ..
