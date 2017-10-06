@@ -1,6 +1,7 @@
 Testing Cypress app installation from NPM on different Node versions
 
-[![CircleCI](https://circleci.com/gh/cypress-io/cypress-test-node-versions.svg?style=svg&circle-token=6a7c4e7e7ab427e11bea6c2af3df29c4491d2376)](https://circleci.com/gh/cypress-io/cypress-test-node-versions)
+[![CircleCI](https://circleci.com/gh/cypress-io/cypress-test-node-versions.svg?style=svg&circle-token=6a7c4e7e7ab427e11bea6c2af3df29c4491d2376)](https://circleci.com/gh/cypress-io/cypress-test-node-versions) [![Build status](https://ci.appveyor.com/api/projects/status/ll36joaucq0hjvfm?svg=true)](https://ci.appveyor.com/project/cypress-io/cypress-test-example-repos)
+
 
 See [circle.yml](circle.yml) for list of environments and tests
 
