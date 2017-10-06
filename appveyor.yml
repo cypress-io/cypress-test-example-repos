@@ -27,6 +27,7 @@ test_script:
   - .\node_modules\.bin\cypress version
   - ps: $KitchenSinkServerProcess = Start-Process npm start -PassThru
   - .\node_modules\.bin\cypress run
+  - ps: Stop-Process -Id $KitchenSinkServerProcess.Id
   - cd ..
 
   - echo "*** cypress-example-recipes ***"
@@ -38,6 +39,7 @@ test_script:
   - .\node_modules\.bin\cypress version
   - ps: $RecipesServerProcess = Start-Process npm start -PassThru
   - .\node_modules\.bin\cypress run
+  - ps: Stop-Process -Id $RecipesServerProcess.Id
   - cd ..
 
   - echo "*** cypress-example-todomvc ***"
@@ -49,6 +51,7 @@ test_script:
   - .\node_modules\.bin\cypress version
   - ps: $TodoMVCServerProcess = Start-Process npm start -PassThru
   - .\node_modules\.bin\cypress run
+  - ps: Stop-Process -Id $TodoMVCServerProcess.Id
   - cd ..
 
   - echo "*** cypress-example-phonecat ***"
@@ -63,6 +66,7 @@ test_script:
   - .\node_modules\.bin\wait-on http://localhost:8000
   - echo "Starting Cypress run"
   - .\node_modules\.bin\cypress run
+  - ps: Stop-Process -Id $PhonecatServerProcess.Id
   - cd ..
 
   - echo "*** cypress-example-piechopper ***"
@@ -74,14 +78,8 @@ test_script:
   - .\node_modules\.bin\cypress version
   - ps: $PiechopperServerProcess = Start-Process npm start -PassThru
   - .\node_modules\.bin\cypress run
-  - cd ..
-
-on_finish:
-  - ps: Stop-Process -Id $KitchenSinkServerProcess.Id
-  - ps: Stop-Process -Id $RecipesServerProcess.Id
-  - ps: Stop-Process -Id $TodoMVCServerProcess.Id
-  - ps: Stop-Process -Id $PhonecatServerProcess.Id
   - ps: Stop-Process -Id $PiechopperServerProcess.Id
+  - cd ..
 
 # Don't actually build.
 build: off
