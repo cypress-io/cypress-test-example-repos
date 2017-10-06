@@ -51,6 +51,20 @@ test_script:
   - .\node_modules\.bin\cypress run
   - cd ..
 
+  - echo "*** cypress-example-phonecat ***"
+  - git clone https://github.com/cypress-io/cypress-example-phonecat.git
+  - cd cypress-example-phonecat
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - ps: $PiechopperServerProcess = Start-Process npm start -PassThru
+  - npm install wait-on
+  - .\node_modules\.bin\wait-on http://localhost:8000
+  - echo "Starting Cypress run"
+  - .\node_modules\.bin\cypress run
+  - cd ..
+
   - echo "*** cypress-example-piechopper ***"
   - git clone https://github.com/cypress-io/cypress-example-piechopper.git
   - cd cypress-example-piechopper
