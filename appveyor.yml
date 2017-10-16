@@ -18,9 +18,9 @@ install:
 
 # Post-install test scripts.
 test_script:
-  - echo
-  - echo "*** cypress-example-recipes ***"
-  - echo
+  - echo ***
+  - echo *** cypress-example-recipes ***
+  - echo ***
   - git clone https://github.com/cypress-io/cypress-example-recipes.git
   - cd cypress-example-recipes
   # only install the server packages
@@ -33,9 +33,9 @@ test_script:
   - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
-  - echo
-  - echo "*** cypress-example-kitchensink ***"
-  - echo
+  - echo ***
+  - echo *** cypress-example-kitchensink ***
+  - echo ***
   - git clone https://github.com/cypress-io/cypress-example-kitchensink.git
   - cd cypress-example-kitchensink
   # only install the server packages
@@ -48,9 +48,9 @@ test_script:
   - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
-  - echo
-  - echo "*** cypress-example-todomvc ***"
-  - echo
+  - echo ***
+  - echo *** cypress-example-todomvc ***
+  - echo ***
   - git clone https://github.com/cypress-io/cypress-example-todomvc.git
   - cd cypress-example-todomvc
   # only install the server packages
@@ -63,9 +63,9 @@ test_script:
   - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
-  - echo
-  - echo "*** cypress-example-phonecat ***"
-  - echo
+  - echo ***
+  - echo *** cypress-example-phonecat ***
+  - echo ***
   - git clone https://github.com/cypress-io/cypress-example-phonecat.git
   - cd cypress-example-phonecat
   # only install the server packages
@@ -81,9 +81,9 @@ test_script:
   - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
-  - echo
-  - echo "*** cypress-example-piechopper ***"
-  - echo
+  - echo ***
+  - echo *** cypress-example-piechopper ***
+  - echo ***
   - git clone https://github.com/cypress-io/cypress-example-piechopper.git
   - cd cypress-example-piechopper
   # only install the server packages
