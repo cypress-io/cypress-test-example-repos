@@ -20,44 +20,44 @@ install:
 
 # Post-install test scripts.
 test_script:
-  # - echo ***
-  # - echo *** cypress-example-todomvc ***
-  # - echo ***
-  # - git clone https://github.com/cypress-io/cypress-example-todomvc.git
-  # - cd cypress-example-todomvc
-  # # only install the server packages
-  # - npm install --production
-  # - npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - run-p --race start-ci cypress:run
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-todomvc ***
+  - echo ***
+  - git clone https://github.com/cypress-io/cypress-example-todomvc.git
+  - cd cypress-example-todomvc
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - run-p --race start-ci cypress:run
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
-  # - echo ***
-  # - echo *** cypress-example-recipes ***
-  # - echo ***
-  # - git clone https://github.com/cypress-io/cypress-example-recipes.git
-  # - cd cypress-example-recipes
-  # # only install the server packages
-  # - npm install --production
-  # - npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - run-p --race start cypress:run
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-recipes ***
+  - echo ***
+  - git clone https://github.com/cypress-io/cypress-example-recipes.git
+  - cd cypress-example-recipes
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - run-p --race start cypress:run
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
-  # - echo ***
-  # - echo *** cypress-example-kitchensink ***
-  # - echo ***
-  # - git clone https://github.com/cypress-io/cypress-example-kitchensink.git
-  # - cd cypress-example-kitchensink
-  # # only install the server packages
-  # - npm install --production
-  # - npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - npm run test-ci
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-kitchensink ***
+  - echo ***
+  - git clone https://github.com/cypress-io/cypress-example-kitchensink.git
+  - cd cypress-example-kitchensink
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - npm run test-ci
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
   - echo ***
   - echo *** cypress-example-phonecat ***
@@ -69,6 +69,7 @@ test_script:
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - npm run test-ci
+  - ok-file cypress\videos\*.mp4
   - cd ..
 
   - echo ***
