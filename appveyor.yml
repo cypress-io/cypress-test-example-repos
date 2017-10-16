@@ -18,67 +18,82 @@ install:
 
 # Post-install test scripts.
 test_script:
+  - echo
   - echo "*** cypress-example-recipes ***"
+  - echo
   - git clone https://github.com/cypress-io/cypress-example-recipes.git
   - cd cypress-example-recipes
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: $RecipesServerProcess = Start-Process npm start -PassThru
+  - ps: Start-Process -NoNewWindow -PassThru npm start
   - .\node_modules\.bin\cypress run
-  - ps: Stop-Process -Id $RecipesServerProcess.Id
+  # NPM should be under "cmd" process name
+  - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
+  - echo
   - echo "*** cypress-example-kitchensink ***"
+  - echo
   - git clone https://github.com/cypress-io/cypress-example-kitchensink.git
   - cd cypress-example-kitchensink
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: $KitchenSinkServerProcess = Start-Process npm start -PassThru
+  - ps: Start-Process -NoNewWindow -PassThru npm start
   - .\node_modules\.bin\cypress run
-  - ps: Stop-Process -Id $KitchenSinkServerProcess.Id
+  # NPM should be under "cmd" process name
+  - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
+  - echo
   - echo "*** cypress-example-todomvc ***"
+  - echo
   - git clone https://github.com/cypress-io/cypress-example-todomvc.git
   - cd cypress-example-todomvc
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: $TodoMVCServerProcess = Start-Process npm start -PassThru
+  - ps: Start-Process -NoNewWindow -PassThru npm start
   - .\node_modules\.bin\cypress run
-  - ps: Stop-Process -Id $TodoMVCServerProcess.Id
+  # NPM should be under "cmd" process name
+  - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
+  - echo
   - echo "*** cypress-example-phonecat ***"
+  - echo
   - git clone https://github.com/cypress-io/cypress-example-phonecat.git
   - cd cypress-example-phonecat
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: $PhonecatServerProcess = Start-Process npm start -PassThru
+  - ps: Start-Process -NoNewWindow -PassThru npm start
   - npm install wait-on
   - .\node_modules\.bin\wait-on http://localhost:8000
   - echo "Starting Cypress run"
   - .\node_modules\.bin\cypress run
-  - ps: Stop-Process -Id $PhonecatServerProcess.Id
+  # NPM should be under "cmd" process name
+  - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
+  - echo
   - echo "*** cypress-example-piechopper ***"
+  - echo
   - git clone https://github.com/cypress-io/cypress-example-piechopper.git
   - cd cypress-example-piechopper
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: $PiechopperServerProcess = Start-Process npm start -PassThru
+  - ps: Start-Process -NoNewWindow -PassThru npm start
   - .\node_modules\.bin\cypress run
-  - ps: Stop-Process -Id $PiechopperServerProcess.Id
+  # NPM should be under "cmd" process name
+  - ps: Get-Process -Name cmd | Stop-Process
   - cd ..
 
 # Don't actually build.
