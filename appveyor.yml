@@ -21,6 +21,18 @@ install:
 # Post-install test scripts.
 test_script:
   - echo ***
+  - echo *** cypress-example-todomvc ***
+  - echo ***
+  - git clone https://github.com/cypress-io/cypress-example-todomvc.git
+  - cd cypress-example-todomvc
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - run-p --race start cypress:run
+  - cd ..
+
+  - echo ***
   - echo *** cypress-example-recipes ***
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-recipes.git
@@ -45,23 +57,6 @@ test_script:
   - cd ..
 
   - echo ***
-  - echo *** cypress-example-todomvc ***
-  - echo ***
-  - git clone https://github.com/cypress-io/cypress-example-todomvc.git
-  - cd cypress-example-todomvc
-  # only install the server packages
-  - npm install --production
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
-  - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - wait-on http://localhost:8000
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
-  - cd ..
-
-  - echo ***
   - echo *** cypress-example-phonecat ***
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-phonecat.git
@@ -70,13 +65,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - wait-on http://localhost:8000
-  - echo "Starting Cypress run"
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - run-p --race start cypress:run
   - cd ..
 
   - echo ***
@@ -88,12 +77,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - wait-on http://localhost:8000
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - run-p --race start cypress:run
   - cd ..
 
 # Don't actually build.
