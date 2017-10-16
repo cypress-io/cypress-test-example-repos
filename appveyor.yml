@@ -29,7 +29,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - run-p --race start cypress:run
+  - run-p --race start-ci cypress:run
   - cd ..
 
   - echo ***
