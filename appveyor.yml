@@ -15,8 +15,8 @@ install:
   - node -e "console.log(process.arch)"
   - echo Will be installing %CYPRESS_NPM_PACKAGE_NAME%
   - echo and binary version %CYPRESS_BINARY_VERSION%
-  # wait-on is a useful utility
-  - npm install -g wait-on
+  # wait-on and npm-run-all are useful utilities
+  - npm install -g wait-on npm-run-all
 
 # Post-install test scripts.
 test_script:
@@ -29,11 +29,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - run-p --race start cypress:run
   - cd ..
 
   - echo ***
@@ -45,11 +41,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - npm run test-ci
   - cd ..
 
   - echo ***
