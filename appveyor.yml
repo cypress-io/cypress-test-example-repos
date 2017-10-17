@@ -77,8 +77,7 @@ test_script:
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-piechopper.git
   - cd cypress-example-piechopper
-  # only install the server packages
-  - npm install --production
+  - npm install
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - run-p --race start cypress:run
