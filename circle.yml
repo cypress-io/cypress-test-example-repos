@@ -88,6 +88,9 @@ jobs:
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-phonecat.git
       - run:
+          working_directory: cypress-example-phonecat
+          command: git log -1
+      - run:
           name: Install default dependencies
           working_directory: cypress-example-phonecat
           command: CYPRESS_BINARY_VERSION= npm install || true
