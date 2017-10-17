@@ -1,12 +1,9 @@
-Testing Cypress app installation from NPM on different Node versions
+Testing Cypress Test Runner against different example repos
 
-[![CircleCI](https://circleci.com/gh/cypress-io/cypress-test-node-versions.svg?style=svg&circle-token=6a7c4e7e7ab427e11bea6c2af3df29c4491d2376)](https://circleci.com/gh/cypress-io/cypress-test-node-versions) [![Build status](https://ci.appveyor.com/api/projects/status/ll36joaucq0hjvfm?svg=true)](https://ci.appveyor.com/project/cypress-io/cypress-test-example-repos)
+[![CircleCI](https://circleci.com/gh/cypress-io/cypress-test-example-repos.svg?style=svg)](https://circleci.com/gh/cypress-io/cypress-test-example-repos) [![Build status](https://ci.appveyor.com/api/projects/status/ll36joaucq0hjvfm?svg=true)](https://ci.appveyor.com/project/cypress-io/cypress-test-example-repos)
 
 
-See [circle.yml](circle.yml) for list of environments and tests
-
-Node 0.12 is NOT supported and not tested. We also test global installation, see 
-file [circle.yml](circle.yml) for all test jobs.
+See [circle.yml](circle.yml) and [appveyor.yml](appveyor.yml)
 
 [Contributing Guideline](/CONTRIBUTING.md)
 
