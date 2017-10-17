@@ -96,6 +96,7 @@ jobs:
           command: CYPRESS_BINARY_VERSION= npm install || true
       - run:
           name: Install wait-on
+          working_directory: cypress-example-phonecat
           command: npm install wait-on
       - run: |
           echo install $CYPRESS_NPM_PACKAGE_NAME
@@ -127,6 +128,7 @@ jobs:
           command: git log -1
       - run:
           name: Install wait-on
+          working_directory: cypress-example-piechopper
           command: npm install wait-on
       - run:
           name: install dependencies
