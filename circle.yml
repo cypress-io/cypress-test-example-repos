@@ -18,7 +18,12 @@ jobs:
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
           key: deps
-      - run: cd cypress-example-kitchensink && npm install
+      - run:
+          working_directory: cypress-example-kitchensink
+          command: git log -1
+      - run:
+          working_directory: cypress-example-kitchensink
+          command: npm install
       - save_cache:
           key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
