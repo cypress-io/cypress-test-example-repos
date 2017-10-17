@@ -30,7 +30,8 @@ test_script:
   - npm uninstall cypress
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - run-p --race server cypress:run
+  - npm run build
+  - npm test
   - cd ..
 
   - echo ***
