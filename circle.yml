@@ -124,11 +124,17 @@ jobs:
           working_directory: cypress-example-piechopper
           command: git log -1
       - run:
+          name: install dependencies
           working_directory: cypress-example-piechopper
-          command: |
-            CYPRESS_BINARY_VERSION= npm install
-            echo install $CYPRESS_NPM_PACKAGE_NAME
-            npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: CYPRESS_BINARY_VERSION= npm install
+      - run:
+          name: uninstall listed cypress
+          working_directory: cypress-example-piechopper
+          command: npm uninstall cypress
+      - run:
+          name: install specific cypress
+          working_directory: cypress-example-piechopper
+          command: npm install $CYPRESS_NPM_PACKAGE_NAME
       - run:
           working_directory: cypress-example-piechopper
           command: npm run build

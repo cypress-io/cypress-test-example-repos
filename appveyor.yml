@@ -21,6 +21,19 @@ install:
 # Post-install test scripts.
 test_script:
   - echo ***
+  - echo *** cypress-example-piechopper ***
+  - echo ***
+  - git clone https://github.com/cypress-io/cypress-example-piechopper.git
+  - cd cypress-example-piechopper
+  - git log -1
+  - npm install
+  - npm uninstall cypress
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - run-p --race start cypress:run
+  - cd ..
+
+  - echo ***
   - echo *** cypress-example-todomvc ***
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-todomvc.git
@@ -74,18 +87,6 @@ test_script:
   - .\node_modules\.bin\cypress version
   - npm run test-ci
   - ok-file cypress\videos\*.mp4
-  - cd ..
-
-  - echo ***
-  - echo *** cypress-example-piechopper ***
-  - echo ***
-  - git clone https://github.com/cypress-io/cypress-example-piechopper.git
-  - cd cypress-example-piechopper
-  - git log -1
-  - npm install
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
-  - .\node_modules\.bin\cypress version
-  - run-p --race start cypress:run
   - cd ..
 
 # Don't actually build.
