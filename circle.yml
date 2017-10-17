@@ -96,7 +96,7 @@ jobs:
           command: CYPRESS_BINARY_VERSION= npm install || true
       - run:
           name: Install wait-on
-          command: npm install -g wait-on
+          command: npm install wait-on
       - run: |
           echo install $CYPRESS_NPM_PACKAGE_NAME
           echo and binary $CYPRESS_BINARY_VERSION
@@ -112,7 +112,7 @@ jobs:
       - run:
           name: Wait for server
           working_directory: cypress-example-phonecat
-          command: wait-on http://localhost:8000
+          command: $(npm bin)/wait-on http://localhost:8000
       - run:
           name: Run E2E tests
           working_directory: cypress-example-phonecat
@@ -127,7 +127,7 @@ jobs:
           command: git log -1
       - run:
           name: Install wait-on
-          command: npm install -g wait-on
+          command: npm install wait-on
       - run:
           name: install dependencies
           working_directory: cypress-example-piechopper
@@ -150,7 +150,7 @@ jobs:
       - run:
           name: Wait for server
           working_directory: cypress-example-piechopper
-          command: wait-on http://localhost:8080
+          command: $(npm bin)/wait-on http://localhost:8080
       - run:
           working_directory: cypress-example-piechopper
           command: $(npm bin)/cypress run
