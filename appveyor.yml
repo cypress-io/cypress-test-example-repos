@@ -15,11 +15,24 @@ install:
   - node -e "console.log(process.arch)"
   - echo Will be installing %CYPRESS_NPM_PACKAGE_NAME%
   - echo and binary version %CYPRESS_BINARY_VERSION%
-  # wait-on is a useful utility
-  - npm install -g wait-on
+  # wait-on, npm-run-all and other useful utilities
+  - npm install -g wait-on npm-run-all ok-file
 
 # Post-install test scripts.
 test_script:
+  - echo ***
+  - echo *** cypress-example-todomvc ***
+  - echo ***
+  - git clone https://github.com/cypress-io/cypress-example-todomvc.git
+  - cd cypress-example-todomvc
+  # only install the server packages
+  - npm install --production
+  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - .\node_modules\.bin\cypress version
+  - run-p --race start-ci cypress:run
+  - ok-file cypress\videos\*.mp4
+  - cd ..
+
   - echo ***
   - echo *** cypress-example-recipes ***
   - echo ***
@@ -29,11 +42,8 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - run-p --race start cypress:run
+  - ok-file cypress\videos\*.mp4
   - cd ..
 
   - echo ***
@@ -45,28 +55,8 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
-  - cd ..
-
-  - echo ***
-  - echo *** cypress-example-todomvc ***
-  - echo ***
-  - git clone https://github.com/cypress-io/cypress-example-todomvc.git
-  - cd cypress-example-todomvc
-  # only install the server packages
-  - npm install --production
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
-  - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - wait-on http://localhost:8000
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - npm run test-ci
+  - ok-file cypress\videos\*.mp4
   - cd ..
 
   - echo ***
@@ -78,13 +68,8 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - wait-on http://localhost:8000
-  - echo "Starting Cypress run"
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - npm run test-ci
+  - ok-file cypress\videos\*.mp4
   - cd ..
 
   - echo ***
@@ -96,12 +81,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - ps: Start-Process -NoNewWindow -PassThru npm start
-  - wait-on http://localhost:8000
-  - .\node_modules\.bin\cypress run
-  # NPM should be under "cmd" process name
-  - ps: Get-Process -Name cmd | Stop-Process
-  - ps: Get-Process
+  - run-p --race start cypress:run
   - cd ..
 
 # Don't actually build.
