@@ -25,6 +25,7 @@ test_script:
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-todomvc.git
   - cd cypress-example-todomvc
+  - git log -1
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
@@ -38,6 +39,7 @@ test_script:
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-recipes.git
   - cd cypress-example-recipes
+  - git log -1
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
@@ -51,6 +53,7 @@ test_script:
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-kitchensink.git
   - cd cypress-example-kitchensink
+  - git log -1
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
@@ -64,6 +67,7 @@ test_script:
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-phonecat.git
   - cd cypress-example-phonecat
+  - git log -1
   # only install the server packages
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
@@ -77,6 +81,7 @@ test_script:
   - echo ***
   - git clone https://github.com/cypress-io/cypress-example-piechopper.git
   - cd cypress-example-piechopper
+  - git log -1
   - npm install
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
