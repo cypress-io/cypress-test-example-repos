@@ -49,6 +49,40 @@ jobs:
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
             $(npm bin)/cypress run --group --record --browser chrome --group-id $CIRCLE_BUILD_NUM
 
+  # pass explicit group id to run same tests multiple times
+  # using CircleCI parallelism option
+  # https://circleci.com/docs/2.0/configuration-reference/#job_name
+  # all jobs will have same CIRCLE_BUILD_NUM for example
+  "example-group-id-staging":
+    <<: *defaults
+    parallelism: 4
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-group.git
+      - restore_cache:
+          key: deps
+      - run:
+          working_directory: cypress-example-group
+          command: git log -1
+      - run:
+          working_directory: cypress-example-group
+          command: npm install
+      - save_cache:
+          key: deps-{{ checksum "cypress-example-group/package.json" }}
+          paths:
+            - cypress-example-group/node_modules
+      - run: echo install $CYPRESS_NPM_PACKAGE_NAME
+      - run:
+          working_directory: cypress-example-group
+          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+      - run:
+          name: Run tests and group them by build number
+          working_directory: cypress-example-group
+          command: |
+            CYPRESS_ENV=staging \
+            CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
+            CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
+            $(npm bin)/cypress run --group --record --group-id $CIRCLE_BUILD_NUM
+
   kitchensink:
     <<: *defaults
     steps:
@@ -270,6 +304,7 @@ workflows:
   test-example-repos:
     jobs:
       - example-group-staging
+      - example-group-id-staging
       - kitchensink
       - kitchensink-chrome
       - recipes
