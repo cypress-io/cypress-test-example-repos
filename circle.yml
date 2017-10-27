@@ -12,6 +12,32 @@ defaults: &defaults
         npm_config_loglevel: warn
 
 jobs:
+  "example-group-staging":
+    <<: *defaults
+    parallelism: 3
+    steps:
+      - run: git clone https://github.com/cypress-io/cypress-example-group.git
+      - restore_cache:
+          key: deps
+      - run:
+          working_directory: cypress-example-group
+          command: git log -1
+      - run:
+          working_directory: cypress-example-group
+          command: npm install
+      - save_cache:
+          key: deps-{{ checksum "cypress-example-group/package.json" }}
+          paths:
+            - cypress-example-group/node_modules
+      - run: echo install $CYPRESS_NPM_PACKAGE_NAME
+      - run:
+          working_directory: cypress-example-group
+          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+      - run:
+          name: Run a test that is part of a group
+          working_directory: cypress-example-group
+          command: CYPRESS_ENV=staging $(npm bin)/cypress run --group
+
   kitchensink:
     <<: *defaults
     steps:
@@ -232,6 +258,7 @@ workflows:
   version: 2
   test-example-repos:
     jobs:
+      - example-group-staging
       - kitchensink
       - kitchensink-chrome
       - recipes
