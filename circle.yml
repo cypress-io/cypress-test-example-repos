@@ -39,7 +39,7 @@ jobs:
             CYPRESS_ENV=staging \
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
-            $(npm bin)/cypress run --group --record
+            $(npm bin)/cypress run --group --record --group-id $CIRCLE_BUILD_NUM
       - run:
           name: Run test using Chrome but put in the same group
           working_directory: cypress-example-group
@@ -47,7 +47,7 @@ jobs:
             CYPRESS_ENV=staging \
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
-            $(npm bin)/cypress run --group --record --browser chrome
+            $(npm bin)/cypress run --group --record --browser chrome --group-id $CIRCLE_BUILD_NUM
 
   kitchensink:
     <<: *defaults
