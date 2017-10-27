@@ -35,11 +35,19 @@ jobs:
       - run:
           name: Run a test that is part of a group
           working_directory: cypress-example-group
-          command: CYPRESS_ENV=staging $(npm bin)/cypress run --group
+          command: |
+            CYPRESS_ENV=staging \
+            CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
+            CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
+            $(npm bin)/cypress run --group --record
       - run:
           name: Run test using Chrome but put in the same group
           working_directory: cypress-example-group
-          command: CYPRESS_ENV=staging $(npm bin)/cypress run --browser chrome --group
+          command: |
+            CYPRESS_ENV=staging \
+            CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
+            CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
+            $(npm bin)/cypress run --group --record --browser chrome
 
   kitchensink:
     <<: *defaults
