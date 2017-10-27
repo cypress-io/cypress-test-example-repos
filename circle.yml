@@ -14,7 +14,6 @@ defaults: &defaults
 jobs:
   "example-group-staging":
     <<: *defaults
-    parallelism: 3
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
@@ -37,6 +36,10 @@ jobs:
           name: Run a test that is part of a group
           working_directory: cypress-example-group
           command: CYPRESS_ENV=staging $(npm bin)/cypress run --group
+      - run:
+          name: Run test using Chrome but put in the same group
+          working_directory: cypress-example-group
+          command: CYPRESS_ENV=staging $(npm bin)/cypress run --browser chrome --group
 
   kitchensink:
     <<: *defaults
