@@ -27,9 +27,9 @@ test_script:
   - cd cypress-example-piechopper
   - git log -1
   - npm cache clean --force
-  - npm install
+  - appveyor-retry npm install
   - npm uninstall cypress
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - npm run build
   - npm test
@@ -43,8 +43,8 @@ test_script:
   - git log -1
   - npm cache clean --force
   # only install the server packages
-  - npm install --production
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - appveyor-retry npm install --production
+  - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - run-p --race start:ci cypress:run
   - ok-file cypress\videos\*.mp4
@@ -58,8 +58,8 @@ test_script:
   - git log -1
   - npm cache clean --force
   # only install the server packages
-  - npm install --production
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - appveyor-retry npm install --production
+  - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - run-p --race start cypress:run
   - ok-file cypress\videos\*.mp4
@@ -73,8 +73,8 @@ test_script:
   - git log -1
   - npm cache clean --force
   # only install the server packages
-  - npm install --production
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - appveyor-retry npm install --production
+  - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - npm run test-ci
   - ok-file cypress\videos\*.mp4
@@ -88,8 +88,8 @@ test_script:
   - git log -1
   - npm cache clean --force
   # only install the server packages
-  - npm install --production
-  - npm install %CYPRESS_NPM_PACKAGE_NAME%
+  - appveyor-retry npm install --production
+  - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
   - npm run test-ci
   - ok-file cypress\videos\*.mp4
