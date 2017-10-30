@@ -1,0 +1,22 @@
+env:
+  TERM: "xterm"
+
+# https://buildkite.com/docs/pipelines/command-step
+steps:
+  - label: "print environment"
+    command:
+      - "npm install -g print-arch @bahmutov/print-env"
+      - "print-arch"
+      - "print-env BUILDKITE"
+
+  - "wait"
+
+  - label: "test kitchensink"
+    command:
+      - "git clone https://github.com/cypress-io/cypress-example-kitchensink.git"
+      - "cd cypress-example-kitchensink"
+      - "git log -1"
+      - "npm install"
+      - "npm install $CYPRESS_NPM_PACKAGE_NAME"
+
+  - "wait"
