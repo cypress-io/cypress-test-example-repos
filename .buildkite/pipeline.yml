@@ -18,12 +18,11 @@ steps:
 
   - "wait"
 
-  - label: "test kitchensink"
+  - label: "cypress-example-kitchensink"
     command:
       - "rm -rf cypress-example-kitchensink || true"
       - "git clone https://github.com/cypress-io/cypress-example-kitchensink.git"
       - "cd cypress-example-kitchensink"
-      - "git pull"
       - "git log -1"
       - "npm install"
       - "npm install $CYPRESS_NPM_PACKAGE_NAME"
@@ -31,13 +30,24 @@ steps:
 
   - "wait"
 
-  - label: "test recipes"
+  - label: "cypress-example-recipes"
     command:
       - "echo $PWD"
       - "rm -rf cypress-example-recipes || true"
       - "git clone https://github.com/cypress-io/cypress-example-recipes.git"
       - "cd cypress-example-recipes"
-      - "git pull"
+      - "git log -1"
+      - "npm install"
+      - "npm install $CYPRESS_NPM_PACKAGE_NAME"
+      - "npm run test:ci"
+
+  - "wait"
+
+  - label: "cypress-example-todomvc"
+    command:
+      - "rm -rf cypress-example-todomvc || true"
+      - "git clone https://github.com/cypress-io/cypress-example-todomvc.git"
+      - "cd cypress-example-todomvc"
       - "git log -1"
       - "npm install"
       - "npm install $CYPRESS_NPM_PACKAGE_NAME"
