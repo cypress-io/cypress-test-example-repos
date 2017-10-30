@@ -13,8 +13,10 @@ steps:
 
   - label: "test kitchensink"
     command:
-      - "git clone https://github.com/cypress-io/cypress-example-kitchensink.git"
+      - "echo $PWD"
+      - "ls cypress-example-kitchensink || git clone https://github.com/cypress-io/cypress-example-kitchensink.git"
       - "cd cypress-example-kitchensink"
+      - "git pull"
       - "git log -1"
       - "npm install"
       - "npm install $CYPRESS_NPM_PACKAGE_NAME"
@@ -24,11 +26,13 @@ steps:
 
   - label: "test recipes"
     command:
-      - "git clone https://github.com/cypress-io/cypress-example-recipes.git"
-      - "cd cypress-example-recipes"
-      - "git log -1"
-      - "npm install"
-      - "npm install $CYPRESS_NPM_PACKAGE_NAME"
-      - "npm run test:ci"
+      - "echo $PWD"
+      # - "ls cypress-example-recipes || git clone https://github.com/cypress-io/cypress-example-recipes.git"
+      # - "cd cypress-example-recipes"
+      # - "git pull"
+      # - "git log -1"
+      # - "npm install"
+      # - "npm install $CYPRESS_NPM_PACKAGE_NAME"
+      # - "npm run test:ci"
 
   - "wait"
