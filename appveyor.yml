@@ -46,7 +46,7 @@ test_script:
   - npm install --production
   - npm install %CYPRESS_NPM_PACKAGE_NAME%
   - .\node_modules\.bin\cypress version
-  - run-p --race start-ci cypress:run
+  - run-p --race start:ci cypress:run
   - ok-file cypress\videos\*.mp4
   - cd ..
 
