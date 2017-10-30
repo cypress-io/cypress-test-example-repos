@@ -18,6 +18,7 @@ steps:
       - "cd cypress-example-kitchensink"
       - "git pull"
       - "git log -1"
+      - "ls -l"
       - "npm install"
       - "npm install $CYPRESS_NPM_PACKAGE_NAME"
       - "npm run test-ci"
