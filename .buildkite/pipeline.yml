@@ -11,11 +11,19 @@ steps:
 
   - "wait"
 
+  - label: "print files"
+    command:
+      - "echo $PWD"
+      - "ls -l"
+
+  - "wait"
+
   - label: "test kitchensink"
     command:
       - "echo $PWD"
       - "ls cypress-example-kitchensink || git clone https://github.com/cypress-io/cypress-example-kitchensink.git"
       - "cd cypress-example-kitchensink"
+      - "echo $PWD"
       - "git pull"
       - "git log -1"
       - "ls -l"
