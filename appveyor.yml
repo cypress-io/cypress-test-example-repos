@@ -42,8 +42,7 @@ test_script:
   - git log -1
   - rm -rf .git
   - npm cache clean --force
-  # only install the server packages
-  - appveyor-retry npm install --production
+  - appveyor-retry npm install
   - appveyor-retry commit-message-install
   - run-if npm run cypress:version
   - run-if npm run test:ci
@@ -58,8 +57,7 @@ test_script:
   - git log -1
   - rm -rf .git
   - npm cache clean --force
-  # only install the server packages
-  - appveyor-retry npm install --production
+  - appveyor-retry npm install
   - appveyor-retry commit-message-install
   - run-if npm run cypress:version
   - run-if npm run test:ci
