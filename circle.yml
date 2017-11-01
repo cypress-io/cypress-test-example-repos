@@ -114,7 +114,7 @@ jobs:
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
-          key: deps
+          key: deps-kitchensink
       - run:
           working_directory: cypress-example-kitchensink
           command: git log -1
@@ -125,7 +125,7 @@ jobs:
           working_directory: cypress-example-kitchensink
           command: npm install commit-message-install
       - save_cache:
-          key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
+          key: deps-kitchensink-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
             - cypress-example-kitchensink/node_modules
       - run:
@@ -139,43 +139,53 @@ jobs:
     <<: *defaults
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
+      - restore_cache:
+          key: deps-recipes
       - run:
           working_directory: cypress-example-recipes
           command: git log -1
       - run:
           working_directory: cypress-example-recipes
-          command: |
-            CYPRESS_BINARY_VERSION= npm install
-            echo install $CYPRESS_NPM_PACKAGE_NAME
-            npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: npm install
       - run:
           working_directory: cypress-example-recipes
-          command: npm start
-          background: true
+          command: npm install commit-message-install
+      - save_cache:
+          key: deps-recipes-{{ checksum "cypress-example-recipes/package.json" }}
+          paths:
+            - cypress-example-recipes/node_modules
       - run:
           working_directory: cypress-example-recipes
-          command: $(npm bin)/cypress run
+          command: $(npm bin)/commit-message-install
+      - run:
+          working_directory: cypress-example-recipes
+          command: $(npm bin)/run-if npm run test:ci
 
   "recipes-chrome":
     <<: *defaults
     steps:
       - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
+      - restore_cache:
+          key: deps-recipes
       - run:
           working_directory: cypress-example-recipes
           command: git log -1
       - run:
           working_directory: cypress-example-recipes
-          command: |
-            CYPRESS_BINARY_VERSION= npm install
-            echo install $CYPRESS_NPM_PACKAGE_NAME
-            npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: npm install
       - run:
           working_directory: cypress-example-recipes
-          command: npm start
-          background: true
+          command: npm install commit-message-install
+      - save_cache:
+          key: deps-recipes-{{ checksum "cypress-example-recipes/package.json" }}
+          paths:
+            - cypress-example-recipes/node_modules
       - run:
           working_directory: cypress-example-recipes
-          command: $(npm bin)/cypress run --browser chrome
+          command: $(npm bin)/commit-message-install
+      - run:
+          working_directory: cypress-example-recipes
+          command: $(npm bin)/run-if npm run test:ci:chrome
 
   todomvc:
     <<: *defaults
