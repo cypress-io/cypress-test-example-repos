@@ -121,22 +121,19 @@ jobs:
       - run:
           working_directory: cypress-example-kitchensink
           command: npm install
+      - run:
+          working_directory: cypress-example-kitchensink
+          command: npm install commit-message-install
       - save_cache:
           key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
             - cypress-example-kitchensink/node_modules
-      - run: echo install $CYPRESS_NPM_PACKAGE_NAME
       - run:
           working_directory: cypress-example-kitchensink
-          command: npm install $CYPRESS_NPM_PACKAGE_NAME
-      - run:
-          name: start server
-          working_directory: cypress-example-kitchensink
-          command: npm start
-          background: true
+          command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-kitchensink
-          command: $(npm bin)/cypress run --browser chrome
+          command: $(npm bin)/run-if npm run test-e2e-chrome
 
   recipes:
     <<: *defaults
