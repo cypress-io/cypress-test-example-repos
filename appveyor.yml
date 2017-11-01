@@ -31,67 +31,70 @@ test_script:
   - run-if npm run cypress:verify
   - run-if npm run build
   - run-if npm test
+  - ok-file cypress\videos\*.mp4
   - cd ..
 
-  # - echo ***
-  # - echo *** cypress-example-todomvc ***
-  # - echo ***
-  # - git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
-  # - cd cypress-example-todomvc
-  # - git log -1
-  # - npm cache clean --force
-  # # only install the server packages
-  # - appveyor-retry npm install --production
-  # - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - run-p --race start:ci cypress:run
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-todomvc ***
+  - echo ***
+  - git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
+  - cd cypress-example-todomvc
+  - git log -1
+  - rm -rf .git
+  - npm cache clean --force
+  # only install the server packages
+  - appveyor-retry npm install --production
+  - appveyor-retry commit-message-install
+  - run-if npm run cypress:version
+  - run-if npm run test:ci
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
-  # - echo ***
-  # - echo *** cypress-example-recipes ***
-  # - echo ***
-  # - git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
-  # - cd cypress-example-recipes
-  # - git log -1
-  # - npm cache clean --force
-  # # only install the server packages
-  # - appveyor-retry npm install --production
-  # - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - run-p --race start cypress:run
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-recipes ***
+  - echo ***
+  - git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
+  - cd cypress-example-recipes
+  - git log -1
+  - rm -rf .git
+  - npm cache clean --force
+  # only install the server packages
+  - appveyor-retry npm install --production
+  - appveyor-retry commit-message-install
+  - run-if npm run cypress:version
+  - run-if npm run test:ci
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
-  # - echo ***
-  # - echo *** cypress-example-kitchensink ***
-  # - echo ***
-  # - git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git
-  # - cd cypress-example-kitchensink
-  # - git log -1
-  # - npm cache clean --force
-  # # only install the server packages
-  # - appveyor-retry npm install --production
-  # - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - npm run test-ci
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-kitchensink ***
+  - echo ***
+  - git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git
+  - cd cypress-example-kitchensink
+  - git log -1
+  - rm -rf .git
+  - npm cache clean --force
+  - appveyor-retry npm install
+  - appveyor-retry commit-message-install
+  - run-if npm run cy:version
+  - run-if npm run test-ci
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
-  # - echo ***
-  # - echo *** cypress-example-phonecat ***
-  # - echo ***
-  # - git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
-  # - cd cypress-example-phonecat
-  # - git log -1
-  # - npm cache clean --force
-  # # only install the server packages
-  # - appveyor-retry npm install --production
-  # - appveyor-retry npm install %CYPRESS_NPM_PACKAGE_NAME%
-  # - .\node_modules\.bin\cypress version
-  # - npm run test-ci
-  # - ok-file cypress\videos\*.mp4
-  # - cd ..
+  - echo ***
+  - echo *** cypress-example-phonecat ***
+  - echo ***
+  - git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
+  - cd cypress-example-phonecat
+  - git log -1
+  - rm -rf .git
+  - npm cache clean --force
+  - appveyor-retry npm install
+  - appveyor-retry commit-message-install
+  - run-if npm run cypress:version
+  - npm run test-ci
+  - ok-file cypress\videos\*.mp4
+  - cd ..
 
 # Don't actually build.
 build: off
