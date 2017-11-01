@@ -5,7 +5,7 @@ env:
 steps:
   - label: "print environment"
     command:
-      - "npm install -g print-arch @bahmutov/print-env"
+      - "npm install -g print-arch @bahmutov/print-env commit-message-install@1.3.2"
       - "print-arch"
       - "print-env BUILDKITE"
 
@@ -21,12 +21,13 @@ steps:
   - label: "cypress-example-kitchensink"
     command:
       - "rm -rf cypress-example-kitchensink || true"
-      - "git clone https://github.com/cypress-io/cypress-example-kitchensink.git"
+      - "git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git"
       - "cd cypress-example-kitchensink"
       - "git log -1"
+      - "rm -rf .git"
       - "npm install"
-      - "npm install $CYPRESS_NPM_PACKAGE_NAME"
-      - "npm run test-ci"
+      - "$(npm bin)/commit-message-install"
+      - "$(npm bin)/run-if npm run test-ci"
 
   - "wait"
 
@@ -34,23 +35,25 @@ steps:
     command:
       - "echo $PWD"
       - "rm -rf cypress-example-recipes || true"
-      - "git clone https://github.com/cypress-io/cypress-example-recipes.git"
+      - "git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git"
       - "cd cypress-example-recipes"
       - "git log -1"
+      - "rm -rf .git"
       - "npm install"
-      - "npm install $CYPRESS_NPM_PACKAGE_NAME"
-      - "npm run test:ci"
+      - "$(npm bin)/commit-message-install"
+      - "$(npm bin)/run-if npm run test:ci"
 
   - "wait"
 
   - label: "cypress-example-todomvc"
     command:
       - "rm -rf cypress-example-todomvc || true"
-      - "git clone https://github.com/cypress-io/cypress-example-todomvc.git"
+      - "git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git"
       - "cd cypress-example-todomvc"
       - "git log -1"
+      - "rm -rf .git"
       - "npm install"
-      - "npm install $CYPRESS_NPM_PACKAGE_NAME"
-      - "npm run test:ci"
+      - "$(npm bin)/commit-message-install"
+      - "$(npm bin)/run-if npm run test:ci"
 
   - "wait"
