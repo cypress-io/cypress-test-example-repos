@@ -377,7 +377,7 @@ jobs:
           command: $(npm bin)/wait-on http://localhost:8080
       - run:
           working_directory: cypress-example-piechopper
-          command: $(npm bin)/run-f npm run cypress run
+          command: $(npm bin)/run-if npm run cypress run
 
 workflows:
   version: 2
