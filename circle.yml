@@ -236,17 +236,20 @@ jobs:
           command: rm -rf .git
       - run:
           working_directory: cypress-example-todomvc
-          command: |
-            CYPRESS_BINARY_VERSION= npm install
-            echo install $CYPRESS_NPM_PACKAGE_NAME
-            npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: npm install
       - run:
           working_directory: cypress-example-todomvc
-          command: npm start
-          background: true
+          command: npm install $COMMIT_MESSAGE_INSTALL
+      - save_cache:
+          key: deps-todomvc-{{ checksum "cypress-example-todomvc/package.json" }}
+          paths:
+            - cypress-example-todomvc/node_modules
       - run:
           working_directory: cypress-example-todomvc
-          command: $(npm bin)/cypress run --headed
+          command: $(npm bin)/commit-message-install
+      - run:
+          working_directory: cypress-example-todomvc
+          command: $(npm bin)/run-if npm run test:ci -- --headed
 
   "todomvc-chrome":
     <<: *defaults
@@ -262,17 +265,20 @@ jobs:
           command: rm -rf .git
       - run:
           working_directory: cypress-example-todomvc
-          command: |
-            CYPRESS_BINARY_VERSION= npm install
-            echo install $CYPRESS_NPM_PACKAGE_NAME
-            npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: npm install
       - run:
           working_directory: cypress-example-todomvc
-          command: npm start
-          background: true
+          command: npm install $COMMIT_MESSAGE_INSTALL
+      - save_cache:
+          key: deps-todomvc-{{ checksum "cypress-example-todomvc/package.json" }}
+          paths:
+            - cypress-example-todomvc/node_modules
       - run:
           working_directory: cypress-example-todomvc
-          command: $(npm bin)/cypress run --browser chrome
+          command: $(npm bin)/commit-message-install
+      - run:
+          working_directory: cypress-example-todomvc
+          command: $(npm bin)/run-if npm run test:ci -- --browser chrome
 
   phonecat:
     <<: *defaults
