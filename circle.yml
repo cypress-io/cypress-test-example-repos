@@ -254,7 +254,7 @@ jobs:
           command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-todomvc
-          command: $(npm bin)/run-if npm run test:ci -- --headed
+          command: $(npm bin)/run-if npm run test:ci:headed
 
   "todomvc-chrome":
     <<: *defaults
