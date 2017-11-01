@@ -27,7 +27,7 @@ steps:
       - "rm -rf .git"
       - "npm install"
       - "commit-message-install"
-      - "$(npm bin)/run-if npm run test-ci"
+      - "run-if npm run test-ci"
 
   - "wait"
 
@@ -41,7 +41,7 @@ steps:
       - "rm -rf .git"
       - "npm install"
       - "commit-message-install"
-      - "$(npm bin)/run-if npm run test:ci"
+      - "run-if npm run test:ci"
 
   - "wait"
 
@@ -54,6 +54,6 @@ steps:
       - "rm -rf .git"
       - "npm install"
       - "commit-message-install"
-      - "$(npm bin)/run-if npm run test:ci"
+      - "run-if npm run test:ci"
 
   - "wait"
