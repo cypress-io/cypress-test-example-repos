@@ -15,6 +15,7 @@ jobs:
   "example-group-staging":
     <<: *defaults
     steps:
+      - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
           key: deps
@@ -61,6 +62,7 @@ jobs:
     <<: *defaults
     parallelism: 4
     steps:
+      - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
           key: deps
@@ -94,6 +96,7 @@ jobs:
   kitchensink:
     <<: *defaults
     steps:
+      - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
           key: deps
@@ -124,6 +127,7 @@ jobs:
   "kitchensink-chrome":
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
           key: deps-kitchensink
@@ -154,6 +158,7 @@ jobs:
   recipes:
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
       - restore_cache:
           key: deps-recipes
@@ -184,6 +189,7 @@ jobs:
   "recipes-chrome":
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
       - restore_cache:
           key: deps-recipes
@@ -214,6 +220,7 @@ jobs:
   todomvc:
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
       - run:
           working_directory: cypress-example-todomvc
@@ -239,6 +246,7 @@ jobs:
   "todomvc-chrome":
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
       - run:
           working_directory: cypress-example-todomvc
@@ -264,6 +272,7 @@ jobs:
   phonecat:
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
       - run:
           working_directory: cypress-example-phonecat
@@ -304,6 +313,7 @@ jobs:
   piechopper:
     <<: *defaults
     steps:
+      - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-piechopper.git
       - run:
           working_directory: cypress-example-piechopper
@@ -347,10 +357,10 @@ workflows:
   version: 2
   test-example-repos:
     jobs:
-      - example-group-staging
-      - example-group-id-staging
       - kitchensink
       - kitchensink-chrome
+      - example-group-staging
+      - example-group-id-staging
       - recipes
       - recipes-chrome
       - todomvc
