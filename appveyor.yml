@@ -28,10 +28,10 @@ test_script:
   - npm cache clean --force
   - appveyor-retry npm install
   - npm uninstall cypress
-  - appveyor-retry .\node_modules\.bin\commit-message-install
-  - .\node_modules\.bin\run-if npm run cypress:verify
-  - .\node_modules\.bin\run-if npm run build
-  - .\node_modules\.bin\run-if npm test
+  - appveyor-retry commit-message-install
+  - run-if npm run cypress:verify
+  - run-if npm run build
+  - run-if npm test
   - cd ..
 
   # - echo ***
