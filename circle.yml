@@ -296,20 +296,22 @@ jobs:
           working_directory: cypress-example-phonecat
           command: rm -rf .git
       - run:
-          name: Install default dependencies
           working_directory: cypress-example-phonecat
-          command: CYPRESS_BINARY_VERSION= npm install || true
+          command: npm install
       - run:
           name: Install wait-on
           working_directory: cypress-example-phonecat
           command: npm install wait-on
-      - run: |
-          echo install $CYPRESS_NPM_PACKAGE_NAME
-          echo and binary $CYPRESS_BINARY_VERSION
       - run:
-          name: Install new version of Cypress
           working_directory: cypress-example-phonecat
-          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: npm install $COMMIT_MESSAGE_INSTALL
+      - save_cache:
+          key: deps-phonecat-{{ checksum "cypress-example-phonecat/package.json" }}
+          paths:
+            - cypress-example-phonecat/node_modules
+      - run:
+          working_directory: cypress-example-phonecat
+          command: $(npm bin)/commit-message-install
       - run:
           name: Starting server
           background: true
@@ -322,7 +324,7 @@ jobs:
       - run:
           name: Run E2E tests
           working_directory: cypress-example-phonecat
-          command: $(npm bin)/cypress run --browser chrome
+          command: $(npm bin)/run-if npm run cypress:run -- --browser chrome
 
   piechopper:
     <<: *defaults
@@ -343,15 +345,17 @@ jobs:
       - run:
           name: install dependencies
           working_directory: cypress-example-piechopper
-          command: CYPRESS_BINARY_VERSION= npm install
+          command: npm install
       - run:
-          name: uninstall listed cypress
           working_directory: cypress-example-piechopper
-          command: npm uninstall cypress
+          command: npm install $COMMIT_MESSAGE_INSTALL
+      - save_cache:
+          key: deps-piechopper-{{ checksum "cypress-example-piechopper/package.json" }}
+          paths:
+            - cypress-example-piechopper/node_modules
       - run:
-          name: install specific cypress
           working_directory: cypress-example-piechopper
-          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-piechopper
           command: npm run build
@@ -365,7 +369,7 @@ jobs:
           command: $(npm bin)/wait-on http://localhost:8080
       - run:
           working_directory: cypress-example-piechopper
-          command: $(npm bin)/cypress run
+          command: $(npm bin)/run-f npm run cypress run
 
 workflows:
   version: 2
