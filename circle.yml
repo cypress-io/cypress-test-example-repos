@@ -22,6 +22,10 @@ jobs:
           working_directory: cypress-example-group
           command: git log -1
       - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-group
+          command: rm -rf .git
+      - run:
           working_directory: cypress-example-group
           command: npm install
       - save_cache:
@@ -64,6 +68,10 @@ jobs:
           working_directory: cypress-example-group
           command: git log -1
       - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-group
+          command: rm -rf .git
+      - run:
           working_directory: cypress-example-group
           command: npm install
       - save_cache:
@@ -93,6 +101,10 @@ jobs:
           working_directory: cypress-example-kitchensink
           command: git log -1
       - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-kitchensink
+          command: rm -rf .git
+      - run:
           working_directory: cypress-example-kitchensink
           command: npm install
       - run:
@@ -112,12 +124,16 @@ jobs:
   "kitchensink-chrome":
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
           key: deps-kitchensink
       - run:
           working_directory: cypress-example-kitchensink
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-kitchensink
+          command: rm -rf .git
       - run:
           working_directory: cypress-example-kitchensink
           command: npm install
@@ -138,12 +154,16 @@ jobs:
   recipes:
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
       - restore_cache:
           key: deps-recipes
       - run:
           working_directory: cypress-example-recipes
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-recipes
+          command: rm -rf .git
       - run:
           working_directory: cypress-example-recipes
           command: npm install
@@ -164,12 +184,16 @@ jobs:
   "recipes-chrome":
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-recipes.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
       - restore_cache:
           key: deps-recipes
       - run:
           working_directory: cypress-example-recipes
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-recipes
+          command: rm -rf .git
       - run:
           working_directory: cypress-example-recipes
           command: npm install
@@ -190,10 +214,14 @@ jobs:
   todomvc:
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-todomvc.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
       - run:
           working_directory: cypress-example-todomvc
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-todomvc
+          command: rm -rf .git
       - run:
           working_directory: cypress-example-todomvc
           command: |
@@ -211,10 +239,14 @@ jobs:
   "todomvc-chrome":
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-todomvc.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
       - run:
           working_directory: cypress-example-todomvc
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-todomvc
+          command: rm -rf .git
       - run:
           working_directory: cypress-example-todomvc
           command: |
@@ -232,10 +264,14 @@ jobs:
   phonecat:
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-phonecat.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
       - run:
           working_directory: cypress-example-phonecat
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-phonecat
+          command: rm -rf .git
       - run:
           name: Install default dependencies
           working_directory: cypress-example-phonecat
@@ -268,10 +304,14 @@ jobs:
   piechopper:
     <<: *defaults
     steps:
-      - run: git clone https://github.com/cypress-io/cypress-example-piechopper.git
+      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-piechopper.git
       - run:
           working_directory: cypress-example-piechopper
           command: git log -1
+      - run:
+          name: Remove .git subfolder
+          working_directory: cypress-example-piechopper
+          command: rm -rf .git
       - run:
           name: Install wait-on
           working_directory: cypress-example-piechopper
