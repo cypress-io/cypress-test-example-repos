@@ -27,7 +27,6 @@ test_script:
   - rm -rf .git
   - npm cache clean --force
   - appveyor-retry npm install
-  - npm uninstall cypress
   - appveyor-retry commit-message-install
   - run-if npm run cypress:verify
   - run-if npm run build
