@@ -10,6 +10,7 @@ defaults: &defaults
         TERM: xterm
         # avoid million NPM install messages
         npm_config_loglevel: warn
+        COMMIT_MESSAGE_INSTALL: commit-message-install@1.3.2
 
 jobs:
   "example-group-staging":
@@ -29,14 +30,16 @@ jobs:
       - run:
           working_directory: cypress-example-group
           command: npm install
+      - run:
+          working_directory: cypress-example-group
+          command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
           key: deps-{{ checksum "cypress-example-group/package.json" }}
           paths:
             - cypress-example-group/node_modules
-      - run: echo install $CYPRESS_NPM_PACKAGE_NAME
       - run:
           working_directory: cypress-example-group
-          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: $(npm bin)/commit-message-install
       - run:
           name: Run a test that is part of a group
           working_directory: cypress-example-group
@@ -44,7 +47,7 @@ jobs:
             CYPRESS_ENV=staging \
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
-            $(npm bin)/cypress run --group --record --group-id $CIRCLE_BUILD_NUM
+            $(npm bin)/run-if npm run cy:run -- --group --record --group-id $CIRCLE_BUILD_NUM
       - run:
           name: Run test using Chrome but put in the same group
           working_directory: cypress-example-group
@@ -52,7 +55,7 @@ jobs:
             CYPRESS_ENV=staging \
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
-            $(npm bin)/cypress run --group --record --browser chrome --group-id $CIRCLE_BUILD_NUM
+            $(npm bin)/run-if npm run cy:run -- --group --record --browser chrome --group-id $CIRCLE_BUILD_NUM
 
   # pass explicit group id to run same tests multiple times
   # using CircleCI parallelism option
@@ -76,14 +79,16 @@ jobs:
       - run:
           working_directory: cypress-example-group
           command: npm install
+      - run:
+          working_directory: cypress-example-group
+          command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
           key: deps-{{ checksum "cypress-example-group/package.json" }}
           paths:
             - cypress-example-group/node_modules
-      - run: echo install $CYPRESS_NPM_PACKAGE_NAME
       - run:
           working_directory: cypress-example-group
-          command: npm install $CYPRESS_NPM_PACKAGE_NAME
+          command: $(npm bin)/commit-message-install
       - run:
           name: Run tests and group them by build number
           working_directory: cypress-example-group
@@ -91,7 +96,7 @@ jobs:
             CYPRESS_ENV=staging \
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
-            $(npm bin)/cypress run --group --record --group-id $CIRCLE_BUILD_NUM
+            $(npm bin)/run-if npm run cy:run -- --group --record --group-id $CIRCLE_BUILD_NUM
 
   kitchensink:
     <<: *defaults
@@ -112,7 +117,7 @@ jobs:
           command: npm install
       - run:
           working_directory: cypress-example-kitchensink
-          command: npm install commit-message-install@1.3.1
+          command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
           key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
@@ -143,7 +148,7 @@ jobs:
           command: npm install
       - run:
           working_directory: cypress-example-kitchensink
-          command: npm install commit-message-install@1.3.1
+          command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
           key: deps-kitchensink-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
@@ -174,7 +179,7 @@ jobs:
           command: npm install
       - run:
           working_directory: cypress-example-recipes
-          command: npm install commit-message-install@1.3.1
+          command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
           key: deps-recipes-{{ checksum "cypress-example-recipes/package.json" }}
           paths:
@@ -205,7 +210,7 @@ jobs:
           command: npm install
       - run:
           working_directory: cypress-example-recipes
-          command: npm install commit-message-install@1.3.1
+          command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
           key: deps-recipes-{{ checksum "cypress-example-recipes/package.json" }}
           paths:
