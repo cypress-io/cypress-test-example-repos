@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
-          key: deps
+          key: deps-group
       - run:
           working_directory: cypress-example-group
           command: git log -1
@@ -34,7 +34,7 @@ jobs:
           working_directory: cypress-example-group
           command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
-          key: deps-{{ checksum "cypress-example-group/package.json" }}
+          key: deps-group-{{ checksum "cypress-example-group/package.json" }}
           paths:
             - cypress-example-group/node_modules
       - run:
@@ -68,7 +68,7 @@ jobs:
       - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
-          key: deps
+          key: deps-group
       - run:
           working_directory: cypress-example-group
           command: git log -1
@@ -83,7 +83,7 @@ jobs:
           working_directory: cypress-example-group
           command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
-          key: deps-{{ checksum "cypress-example-group/package.json" }}
+          key: deps-group-{{ checksum "cypress-example-group/package.json" }}
           paths:
             - cypress-example-group/node_modules
       - run:
@@ -104,7 +104,7 @@ jobs:
       - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
-          key: deps
+          key: deps-kitchensink
       - run:
           working_directory: cypress-example-kitchensink
           command: git log -1
@@ -119,7 +119,7 @@ jobs:
           working_directory: cypress-example-kitchensink
           command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
-          key: deps-{{ checksum "cypress-example-kitchensink/package.json" }}
+          key: deps-kitchensink-{{ checksum "cypress-example-kitchensink/package.json" }}
           paths:
             - cypress-example-kitchensink/node_modules
       - run:
@@ -230,6 +230,8 @@ jobs:
     steps:
       - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
+      - restore_cache:
+          key: deps-todomvc
       - run:
           working_directory: cypress-example-todomvc
           command: git log -1
@@ -259,6 +261,8 @@ jobs:
     steps:
       - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
+      - restore_cache:
+          key: deps-todomvc
       - run:
           working_directory: cypress-example-todomvc
           command: git log -1
@@ -288,6 +292,8 @@ jobs:
     steps:
       - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
+      - restore_cache:
+          key: deps-phonecat
       - run:
           working_directory: cypress-example-phonecat
           command: git log -1
@@ -331,6 +337,8 @@ jobs:
     steps:
       - checkout
       - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-piechopper.git
+      - restore_cache:
+          key: deps-piechopper
       - run:
           working_directory: cypress-example-piechopper
           command: git log -1
