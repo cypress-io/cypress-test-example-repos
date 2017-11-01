@@ -158,6 +158,9 @@ jobs:
           command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-kitchensink
+          command: npm run
+      - run:
+          working_directory: cypress-example-kitchensink
           command: $(npm bin)/run-if npm run test-ci-chrome
 
   recipes:
