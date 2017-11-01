@@ -285,7 +285,7 @@ jobs:
           command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-todomvc
-          command: $(npm bin)/run-if npm run test:ci -- --browser chrome
+          command: $(npm bin)/run-if npm run test:ci:chrome
 
   phonecat:
     <<: *defaults
