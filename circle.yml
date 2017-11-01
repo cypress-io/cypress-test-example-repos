@@ -107,7 +107,7 @@ jobs:
           command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-kitchensink
-          command: $(npm bin)/run-if npm run test-e2e
+          command: $(npm bin)/run-if npm run test-ci
 
   "kitchensink-chrome":
     <<: *defaults
@@ -133,7 +133,7 @@ jobs:
           command: $(npm bin)/commit-message-install
       - run:
           working_directory: cypress-example-kitchensink
-          command: $(npm bin)/run-if npm run test-e2e-chrome
+          command: $(npm bin)/run-if npm run test-ci-chrome
 
   recipes:
     <<: *defaults
