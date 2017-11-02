@@ -14,7 +14,7 @@ install:
   - node -e "console.log(process.platform)"
   - node -e "console.log(process.arch)"
   # wait-on, npm-run-all and other useful utilities
-  - npm install -g wait-on npm-run-all ok-file commit-message-install@1.3.2
+  - npm install -g wait-on npm-run-all ok-file commit-message-install@1.3.3
 
 # Post-install test scripts.
 test_script:
