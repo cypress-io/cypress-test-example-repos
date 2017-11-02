@@ -15,46 +15,19 @@ steps:
     command:
       - "echo $PWD"
       - "ls -l"
-
   - "wait"
 
   - label: "cypress-example-kitchensink"
     command:
       - "$(npm bin)/run-if node ./test-repo.js cypress-example-kitchensink"
-      # - "rm -rf cypress-example-kitchensink || true"
-      # - "git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git"
-      # - "cd cypress-example-kitchensink"
-      # - "git log -1"
-      # - "rm -rf .git"
-      # - "npm install"
-      # - "commit-message-install"
-      # - "run-if npm run test-ci"
-
   - "wait"
 
-  # - label: "cypress-example-recipes"
-  #   command:
-  #     - "echo $PWD"
-  #     - "rm -rf cypress-example-recipes || true"
-  #     - "git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git"
-  #     - "cd cypress-example-recipes"
-  #     - "git log -1"
-  #     - "rm -rf .git"
-  #     - "npm install"
-  #     - "commit-message-install"
-  #     - "run-if npm run test:ci"
+  - label: "cypress-example-recipes"
+    command:
+      - "$(npm bin)/run-if node ./test-repo.js cypress-example-recipes"
+  - "wait"
 
-  # - "wait"
-
-  # - label: "cypress-example-todomvc"
-  #   command:
-  #     - "rm -rf cypress-example-todomvc || true"
-  #     - "git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git"
-  #     - "cd cypress-example-todomvc"
-  #     - "git log -1"
-  #     - "rm -rf .git"
-  #     - "npm install"
-  #     - "commit-message-install"
-  #     - "run-if npm run test:ci"
-
-  # - "wait"
+  - label: "cypress-example-todomvc"
+    command:
+      - "$(npm bin)/run-if node ./test-repo.js cypress-example-todomvc"
+  - "wait"
