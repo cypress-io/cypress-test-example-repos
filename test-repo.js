@@ -23,4 +23,4 @@ shell.exec('npm install')
 shell.exec('../node_modules/.bin/commit-message-install')
 // show what commands are available
 shell.exec('npm run')
-shell.exec('npm run test-ci')
+shell.exec('npm run test:ci')
