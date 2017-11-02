@@ -8,10 +8,7 @@ const repoName = process.argv[2]
 if (!repoName) {
   throw new Error('Missing repo name')
 }
-const testCommand = process.argv[3]
-if (!testCommand) {
-  testCommand = 'test:ci'
-}
+const testCommand = process.argv[3] || 'test:ci'
 
 const url = `https://github.com/cypress-io/${repoName}.git`
 console.log('testing url', url)
