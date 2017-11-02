@@ -1,0 +1,26 @@
+{
+  "name": "cypress-test-example-repos",
+  "version": "1.0.0",
+  "description": "Testing Cypress Test Runner against different example repos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cypress-io/cypress-test-example-repos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cypress-io/cypress-test-example-repos/issues"
+  },
+  "homepage": "https://github.com/cypress-io/cypress-test-example-repos#readme",
+  "devDependencies": {
+    "@bahmutov/print-env": "1.0.1",
+    "commit-message-install": "1.3.3",
+    "print-arch": "1.0.0"
+  }
+}
