@@ -109,7 +109,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-kitchensink
+      - run: npm run test-if -- cypress-example-kitchensink
 
   "kitchensink-chrome":
     <<: *defaults
@@ -122,7 +122,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-kitchensink test:ci:chrome
+      - run: npm run test-if -- cypress-example-kitchensink test:ci:chrome
 
   recipes:
     <<: *defaults
@@ -135,7 +135,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-recipes
+      - run: npm run test-if -- cypress-example-recipes
 
   recipes-chrome:
     <<: *defaults
@@ -148,7 +148,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-recipes test:ci:chrome
+      - run: npm run test-if -- cypress-example-recipes test:ci:chrome
 
   todomvc:
     <<: *defaults
@@ -162,6 +162,7 @@ jobs:
           paths:
             - node_modules
       - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci
+      - run: npm run test-if -- cypress-example-todomvc test:ci
 
   todomvc-headed:
     <<: *defaults
@@ -174,7 +175,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci:headed
+      - run: npm run test-if -- cypress-example-todomvc test:ci:headed
 
   todomvc-chrome:
     <<: *defaults
@@ -187,7 +188,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci:chrome
+      - run: npm run test-if -- cypress-example-todomvc test:ci:chrome
 
   phonecat:
     <<: *defaults

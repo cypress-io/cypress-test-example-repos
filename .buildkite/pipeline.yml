@@ -19,15 +19,15 @@ steps:
 
   - label: "cypress-example-kitchensink"
     command:
-      - "$(npm bin)/run-if node ./test-repo.js cypress-example-kitchensink"
+      - "npm run test-if -- cypress-example-kitchensink"
   - "wait"
 
   - label: "cypress-example-recipes"
     command:
-      - "$(npm bin)/run-if node ./test-repo.js cypress-example-recipes"
+      - "npm run test-if -- cypress-example-recipes"
   - "wait"
 
   - label: "cypress-example-todomvc"
     command:
-      - "$(npm bin)/run-if node ./test-repo.js cypress-example-todomvc"
+      - "npm run test-if -- cypress-example-todomvc"
   - "wait"

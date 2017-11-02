@@ -4,7 +4,8 @@
   "description": "Testing Cypress Test Runner against different example repos",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-if": "run-if node ./test-repo.js"
   },
   "private": true,
   "repository": {
@@ -21,7 +22,11 @@
   "devDependencies": {
     "@bahmutov/print-env": "1.0.1",
     "commit-message-install": "1.3.3",
+    "npm-run-all": "4.1.1",
+    "ok-file": "1.4.0",
     "print-arch": "1.0.0",
-    "shelljs": "0.7.8"
+    "print-env": "0.1.1",
+    "shelljs": "0.7.8",
+    "wait-on": "2.0.2"
   }
 }
