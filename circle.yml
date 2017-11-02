@@ -98,7 +98,7 @@ jobs:
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
             $(npm bin)/run-if npm run cy:run -- --group --record --group-id $CIRCLE_BUILD_NUM
 
-  kitchensink-script:
+  kitchensink:
     <<: *defaults
     steps:
       - checkout
@@ -110,37 +110,6 @@ jobs:
           paths:
             - node_modules
       - run: $(npm bin)/run-if node ./test-repo.js cypress-example-kitchensink
-
-  kitchensink:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: git clone https://github.com/cypress-io/cypress-example-kitchensink.git
-      - restore_cache:
-          key: deps-kitchensink
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-kitchensink
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: npm install
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: npm install $COMMIT_MESSAGE_INSTALL
-      - save_cache:
-          key: deps-kitchensink-{{ checksum "cypress-example-kitchensink/package.json" }}
-          paths:
-            - cypress-example-kitchensink/node_modules
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: $(npm bin)/run-if npm run test:ci
 
   "kitchensink-chrome":
     <<: *defaults
@@ -396,7 +365,6 @@ workflows:
   version: 2
   test-example-repos:
     jobs:
-      - kitchensink-script
       - kitchensink
       - kitchensink-chrome
       - example-group-staging
