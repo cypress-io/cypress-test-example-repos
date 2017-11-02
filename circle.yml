@@ -115,159 +115,79 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-kitchensink.git
       - restore_cache:
-          key: deps-kitchensink
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-kitchensink
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: npm install
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-kitchensink-{{ checksum "cypress-example-kitchensink/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-kitchensink/node_modules
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: npm run
-      - run:
-          working_directory: cypress-example-kitchensink
-          command: $(npm bin)/run-if npm run test:ci:chrome
+            - node_modules
+      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-kitchensink test:ci:chrome
 
   recipes:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
       - restore_cache:
-          key: deps-recipes
-      - run:
-          working_directory: cypress-example-recipes
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-recipes
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-recipes
-          command: npm install
-      - run:
-          working_directory: cypress-example-recipes
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-recipes-{{ checksum "cypress-example-recipes/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-recipes/node_modules
-      - run:
-          working_directory: cypress-example-recipes
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-recipes
-          command: $(npm bin)/run-if npm run test:ci
+            - node_modules
+      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-recipes
 
-  "recipes-chrome":
+  recipes-chrome:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-recipes.git
       - restore_cache:
-          key: deps-recipes
-      - run:
-          working_directory: cypress-example-recipes
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-recipes
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-recipes
-          command: npm install
-      - run:
-          working_directory: cypress-example-recipes
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-recipes-{{ checksum "cypress-example-recipes/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-recipes/node_modules
-      - run:
-          working_directory: cypress-example-recipes
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-recipes
-          command: $(npm bin)/run-if npm run test:ci:chrome
+            - node_modules
+      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-recipes test:ci:chrome
 
   todomvc:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
       - restore_cache:
-          key: deps-todomvc
-      - run:
-          working_directory: cypress-example-todomvc
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-todomvc
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-todomvc
-          command: npm install
-      - run:
-          working_directory: cypress-example-todomvc
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-todomvc-{{ checksum "cypress-example-todomvc/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-todomvc/node_modules
-      - run:
-          working_directory: cypress-example-todomvc
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-todomvc
-          command: $(npm bin)/run-if npm run test:ci:headed
+            - node_modules
+      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci
 
-  "todomvc-chrome":
+  todomvc-headed:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-todomvc.git
       - restore_cache:
-          key: deps-todomvc
-      - run:
-          working_directory: cypress-example-todomvc
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-todomvc
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-todomvc
-          command: npm install
-      - run:
-          working_directory: cypress-example-todomvc
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-todomvc-{{ checksum "cypress-example-todomvc/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-todomvc/node_modules
-      - run:
-          working_directory: cypress-example-todomvc
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-todomvc
-          command: $(npm bin)/run-if npm run test:ci:chrome
+            - node_modules
+      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci:headed
+
+  todomvc-chrome:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: root-deps
+      - run: npm install
+      - save_cache:
+          key: root-deps-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci:chrome
 
   phonecat:
     <<: *defaults
@@ -372,6 +292,7 @@ workflows:
       - recipes
       - recipes-chrome
       - todomvc
+      - todomvc-headed
       - todomvc-chrome
       - phonecat
       - piechopper

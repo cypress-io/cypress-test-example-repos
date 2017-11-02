@@ -8,9 +8,14 @@ const repoName = process.argv[2]
 if (!repoName) {
   throw new Error('Missing repo name')
 }
+const testCommand = process.arv[3]
+if (!testCommand) {
+  testCommand = 'test:ci'
+}
 
 const url = `https://github.com/cypress-io/${repoName}.git`
 console.log('testing url', url)
+console.log('using command', testCommand)
 
 if (existsSync(repoName)) {
   shell.rm('-rf', repoName)
@@ -23,4 +28,4 @@ shell.exec('npm install')
 shell.exec('../node_modules/.bin/commit-message-install')
 // show what commands are available
 shell.exec('npm run')
-shell.exec('npm run test:ci')
+shell.exec(`npm run ${testCommand}`)
