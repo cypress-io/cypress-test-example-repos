@@ -8,7 +8,7 @@ const repoName = process.argv[2]
 if (!repoName) {
   throw new Error('Missing repo name')
 }
-const testCommand = process.arv[3]
+const testCommand = process.argv[3]
 if (!testCommand) {
   testCommand = 'test:ci'
 }
