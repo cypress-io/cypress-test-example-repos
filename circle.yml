@@ -161,7 +161,6 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: $(npm bin)/run-if node ./test-repo.js cypress-example-todomvc test:ci
       - run: npm run test-if -- cypress-example-todomvc test:ci
 
   todomvc-headed:
