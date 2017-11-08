@@ -193,46 +193,14 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
       - restore_cache:
-          key: deps-phonecat
-      - run:
-          working_directory: cypress-example-phonecat
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-phonecat
-          command: rm -rf .git
-      - run:
-          working_directory: cypress-example-phonecat
-          command: npm install
-      - run:
-          name: Install wait-on
-          working_directory: cypress-example-phonecat
-          command: npm install wait-on
-      - run:
-          working_directory: cypress-example-phonecat
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-phonecat-{{ checksum "cypress-example-phonecat/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-phonecat/node_modules
-      - run:
-          working_directory: cypress-example-phonecat
-          command: $(npm bin)/commit-message-install
-      - run:
-          name: Starting server
-          background: true
-          working_directory: cypress-example-phonecat
-          command: npm start
-      - run:
-          name: Wait for server
-          working_directory: cypress-example-phonecat
-          command: $(npm bin)/wait-on http://localhost:8000
-      - run:
-          name: Run E2E tests
-          working_directory: cypress-example-phonecat
-          command: $(npm bin)/run-if npm run cypress:run -- --browser chrome
+            - node_modules
+      - run: npm run test-if -- cypress-example-phonecat record-ci
 
   piechopper:
     <<: *defaults
