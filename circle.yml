@@ -206,48 +206,14 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run: git clone --depth 1 https://github.com/cypress-io/cypress-example-piechopper.git
       - restore_cache:
-          key: deps-piechopper
-      - run:
-          working_directory: cypress-example-piechopper
-          command: git log -1
-      - run:
-          name: Remove .git subfolder
-          working_directory: cypress-example-piechopper
-          command: rm -rf .git
-      - run:
-          name: Install wait-on
-          working_directory: cypress-example-piechopper
-          command: npm install wait-on
-      - run:
-          name: install dependencies
-          working_directory: cypress-example-piechopper
-          command: npm install
-      - run:
-          working_directory: cypress-example-piechopper
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          key: root-deps
+      - run: npm install
       - save_cache:
-          key: deps-piechopper-{{ checksum "cypress-example-piechopper/package.json" }}
+          key: root-deps-{{ checksum "package.json" }}
           paths:
-            - cypress-example-piechopper/node_modules
-      - run:
-          working_directory: cypress-example-piechopper
-          command: $(npm bin)/commit-message-install
-      - run:
-          working_directory: cypress-example-piechopper
-          command: npm run build
-      - run:
-          working_directory: cypress-example-piechopper
-          command: npm start
-          background: true
-      - run:
-          name: Wait for server
-          working_directory: cypress-example-piechopper
-          command: $(npm bin)/wait-on http://localhost:8080
-      - run:
-          working_directory: cypress-example-piechopper
-          command: $(npm bin)/run-if npm run cypress:run
+            - node_modules
+      - run: npm run test-if -- cypress-example-piechopper test:ci
 
 workflows:
   version: 2
