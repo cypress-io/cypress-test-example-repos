@@ -24,22 +24,7 @@ test_script:
   - npm run test-if -- cypress-example-kitchensink
   - npm run test-if -- cypress-example-recipes
   - npm run test-if -- cypress-example-phonecat
-
-  - echo ***
-  - echo *** cypress-example-piechopper ***
-  - echo ***
-  - git clone --depth 1 https://github.com/cypress-io/cypress-example-piechopper.git
-  - cd cypress-example-piechopper
-  - git log -1
-  - rm -rf .git
-  - npm cache clean --force
-  - appveyor-retry npm install
-  - appveyor-retry commit-message-install
-  - run-if npm run cypress:verify
-  - run-if npm run build
-  - run-if npm test
-  - ok-file cypress\videos\*.mp4
-  - cd ..
+  - npm run test-if -- cypress-example-piechopper
 
 # Don't actually build.
 build: off
