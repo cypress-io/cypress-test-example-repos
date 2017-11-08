@@ -200,7 +200,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- cypress-example-phonecat record-ci test:ci
+      - run: npm run test-if -- cypress-example-phonecat test:ci
 
   piechopper:
     <<: *defaults
