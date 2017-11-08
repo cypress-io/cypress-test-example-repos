@@ -23,6 +23,7 @@ test_script:
   - npm run test-if -- cypress-example-todomvc
   - npm run test-if -- cypress-example-kitchensink
   - npm run test-if -- cypress-example-recipes
+  - npm run test-if -- cypress-example-phonecat
 
   - echo ***
   - echo *** cypress-example-piechopper ***
@@ -37,21 +38,6 @@ test_script:
   - run-if npm run cypress:verify
   - run-if npm run build
   - run-if npm test
-  - ok-file cypress\videos\*.mp4
-  - cd ..
-
-  - echo ***
-  - echo *** cypress-example-phonecat ***
-  - echo ***
-  - git clone --depth 1 https://github.com/cypress-io/cypress-example-phonecat.git
-  - cd cypress-example-phonecat
-  - git log -1
-  - rm -rf .git
-  - npm cache clean --force
-  - appveyor-retry npm install
-  - appveyor-retry commit-message-install
-  - run-if npm run cypress:version
-  - npm run test-ci
   - ok-file cypress\videos\*.mp4
   - cd ..
 
