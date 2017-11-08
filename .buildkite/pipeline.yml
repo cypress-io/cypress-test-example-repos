@@ -31,3 +31,8 @@ steps:
     command:
       - "npm run test-if -- cypress-example-todomvc"
   - "wait"
+
+  - label: "cypress-example-phonecat"
+    command:
+      - "npm run test-if -- cypress-example-phonecat"
+  - "wait"
