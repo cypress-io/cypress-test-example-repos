@@ -137,9 +137,21 @@ jobs:
             - node_modules
       - run: npm run test-if -- cypress-example-recipes
       - store_artifacts:
-          path: cypress-example-recipes/examples/*/cypress/screenshots
+          path: cypress-example-recipes/examples/blogs__codepen-demo/cypress/screenshots
       - store_artifacts:
-          path: cypress-example-recipes/examples/*/cypress/videos
+          path: cypress-example-recipes/examples/blogs__codepen-demo/cypress/videos
+      - store_artifacts:
+          path: cypress-example-recipes/examples/blogs__direct-control-angular/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-recipes/examples/blogs__direct-control-angular/cypress/videos
+      - store_artifacts:
+          path: cypress-example-recipes/examples/blogs__e2e-api-testing/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-recipes/examples/blogs__e2e-api-testing/cypress/videos
+      - store_artifacts:
+          path: cypress-example-recipes/examples/blogs__vue-vuex-rest/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-recipes/examples/blogs__vue-vuex-rest/cypress/videos
 
   recipes-chrome:
     <<: *defaults
