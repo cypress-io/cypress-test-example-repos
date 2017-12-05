@@ -136,6 +136,10 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- cypress-example-recipes
+      - store_artifacts:
+          path: cypress-example-recipes/examples/*/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-recipes/examples/*/cypress/videos
 
   recipes-chrome:
     <<: *defaults
