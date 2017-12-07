@@ -4,7 +4,7 @@ defaults: &defaults
   parallelism: 1
   working_directory: ~/app
   docker:
-    - image: cypress/browsers:chrome62
+    - image: cypress/browsers:chrome63
       environment:
         ## this enables colors + fixes failing unit tests
         TERM: xterm
