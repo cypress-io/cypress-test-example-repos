@@ -4,12 +4,14 @@ defaults: &defaults
   parallelism: 1
   working_directory: ~/app
   docker:
-    - image: cypress/browsers:chrome62
+    - image: cypress/browsers:chrome63
       environment:
         ## this enables colors + fixes failing unit tests
         TERM: xterm
         # avoid million NPM install messages
         npm_config_loglevel: warn
+        # allow installing when the main user is root
+        npm_config_unsafe_perm: true
         COMMIT_MESSAGE_INSTALL: commit-message-install@1.3.3
 
 jobs:
