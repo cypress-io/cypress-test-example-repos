@@ -112,6 +112,10 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- cypress-example-kitchensink
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/videos
 
   "kitchensink-chrome":
     <<: *defaults
@@ -125,6 +129,10 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- cypress-example-kitchensink test:ci:chrome
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/videos
 
   recipes:
     <<: *defaults
