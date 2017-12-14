@@ -20,7 +20,8 @@ if (existsSync(repoName)) {
   shell.rm('-rf', repoName)
 }
 // now see if the commit message tells us a specific branch to test
-getJsonFromGit().then((json) => {
+getJsonFromGit()
+.then((json) => {
   // need to clone entire repo so we get all branches
   // because we might be testing in a separate branch
   shell.exec(`git clone ${url}`)
@@ -49,4 +50,8 @@ getJsonFromGit().then((json) => {
   // show what commands are available
   shell.exec('npm run')
   shell.exec(`npm run ${testCommand}`)
+})
+.catch((e) => {
+  console.error(e.message)
+  process.exit(1)
 })
