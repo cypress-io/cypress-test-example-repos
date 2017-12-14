@@ -26,9 +26,6 @@ shell.cd(repoName)
 
 // now see if the commit message tells us a specific branch to test
 getJsonFromGit().then((json) => {
-  json = {
-    branch: '1.2.0'
-  }
   if (json && json.branch) {
     console.log('commit message specifies branch to test', json.branch)
     console.log('trying to switch to remote branch', json.branch)
