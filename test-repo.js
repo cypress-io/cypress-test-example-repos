@@ -19,13 +19,13 @@ console.log('using command', testCommand)
 if (existsSync(repoName)) {
   shell.rm('-rf', repoName)
 }
-// need to clone entire repo so we get all branches
-// because we might be testing in a separate branch
-shell.exec(`git clone ${url}`)
-shell.cd(repoName)
-
 // now see if the commit message tells us a specific branch to test
 getJsonFromGit().then((json) => {
+  // need to clone entire repo so we get all branches
+  // because we might be testing in a separate branch
+  shell.exec(`git clone ${url}`)
+  shell.cd(repoName)
+
   if (json && json.branch) {
     console.log('commit message specifies branch to test', json.branch)
     console.log('trying to switch to remote branch', json.branch)
