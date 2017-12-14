@@ -25,7 +25,7 @@ shell.exec(`git clone ${url}`)
 shell.cd(repoName)
 
 // now see if the commit message tells us a specific branch to test
-getJsonFromGit().then(json => {
+getJsonFromGit().then((json) => {
   json = {
     branch: '1.2.0'
   }

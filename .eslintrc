@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "plugin:cypress-dev/general"
+  ],
+  "rules": {
+    "no-console": "off",
+    "comma-dangle": "off"
+  },
+  "env": {
+    "node": true
+  }
+}
