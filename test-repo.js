@@ -63,13 +63,20 @@ getJsonFromGit()
   // show what commands are available
   shell.exec('npm run')
 
-  let cmd = `npm run ${args.command}`
+  const cmd = `npm run ${args.command}`
+  const execOptions = {
+    stdio: 'inherit'
+  }
   if (json && json.commit) {
-    cmd += ` -- --group-id ${json.commit}`
+    execOptions.env = {
+      CYPRESS_GROUP_ID: json.commit
+    }
   }
   console.log('full test command')
   console.log(cmd)
-  shell.exec(cmd)
+  console.log('with options')
+  console.log(execOptions)
+  shell.exec(cmd, execOptions)
 })
 .catch((e) => {
   console.error(e.message)
