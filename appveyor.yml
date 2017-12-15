@@ -20,11 +20,11 @@ install:
 
 # Post-install test scripts.
 test_script:
-  - npm run test-if -- cypress-example-todomvc
-  - npm run test-if -- cypress-example-kitchensink
-  - npm run test-if -- cypress-example-recipes
-  - npm run test-if -- cypress-example-phonecat
-  - npm run test-if -- cypress-example-piechopper
+  - npm run test-if -- --repo cypress-example-todomvc
+  - npm run test-if -- --repo cypress-example-kitchensink
+  - npm run test-if -- --repo cypress-example-recipes
+  - npm run test-if -- --repo cypress-example-phonecat
+  - npm run test-if -- --repo cypress-example-piechopper
 
 # Don't actually build.
 build: off

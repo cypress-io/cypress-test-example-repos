@@ -19,25 +19,25 @@ steps:
 
   - label: "cypress-example-kitchensink"
     command:
-      - "npm run test-if -- cypress-example-kitchensink"
+      - "npm run test-if -- --repo cypress-example-kitchensink"
   - "wait"
 
   - label: "cypress-example-recipes"
     command:
-      - "npm run test-if -- cypress-example-recipes"
+      - "npm run test-if -- --repo cypress-example-recipes"
   - "wait"
 
   - label: "cypress-example-todomvc"
     command:
-      - "npm run test-if -- cypress-example-todomvc"
+      - "npm run test-if -- --repo cypress-example-todomvc"
   - "wait"
 
   - label: "cypress-example-phonecat"
     command:
-      - "npm run test-if -- cypress-example-phonecat"
+      - "npm run test-if -- --repo cypress-example-phonecat"
   - "wait"
 
   - label: "cypress-example-piechopper"
     command:
-      - "npm run test-if -- cypress-example-piechopper"
+      - "npm run test-if -- --repo cypress-example-piechopper"
   - "wait"
