@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-group
+          key: root-group
       - run: npm install
       - save_cache:
           key: root-group-{{ checksum "package.json" }}
@@ -34,7 +34,7 @@ jobs:
       - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
-          key: deps-group
+          key: deps-example-group-staging
       - run:
           working_directory: cypress-example-group
           command: git log -1
@@ -49,7 +49,7 @@ jobs:
           working_directory: cypress-example-group
           command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
-          key: deps-group-{{ checksum "cypress-example-group/package.json" }}
+          key: deps-example-group-staging-{{ checksum "cypress-example-group/package.json" }}
           paths:
             - cypress-example-group/node_modules
       - run:
@@ -83,7 +83,7 @@ jobs:
       - checkout
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
-          key: deps-group
+          key: deps-example-group-id-staging
       - run:
           working_directory: cypress-example-group
           command: git log -1
@@ -98,7 +98,7 @@ jobs:
           working_directory: cypress-example-group
           command: npm install $COMMIT_MESSAGE_INSTALL
       - save_cache:
-          key: deps-group-{{ checksum "cypress-example-group/package.json" }}
+          key: deps-example-group-id-staging-{{ checksum "cypress-example-group/package.json" }}
           paths:
             - cypress-example-group/node_modules
       - run:
