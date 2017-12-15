@@ -145,23 +145,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- cypress-example-recipes
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__codepen-demo/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__codepen-demo/cypress/videos
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__direct-control-angular/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__direct-control-angular/cypress/videos
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__e2e-api-testing/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__e2e-api-testing/cypress/videos
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__vue-vuex-rest/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__vue-vuex-rest/cypress/videos
+      - run: npm run test-if -- cypress-example-recipes test:ci:record
 
   recipes-chrome:
     <<: *defaults
@@ -174,23 +158,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- cypress-example-recipes test:ci:chrome
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__codepen-demo/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__codepen-demo/cypress/videos
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__direct-control-angular/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__direct-control-angular/cypress/videos
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__e2e-api-testing/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__e2e-api-testing/cypress/videos
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__vue-vuex-rest/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/examples/blogs__vue-vuex-rest/cypress/videos
+      - run: npm run test-if -- cypress-example-recipes test:ci:chrome:record
 
   todomvc:
     <<: *defaults
