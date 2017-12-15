@@ -32,39 +32,46 @@ if (existsSync(args.repo)) {
 }
 // now see if the commit message tells us a specific branch to test
 getJsonFromGit()
-.then((json) => {
-  // need to clone entire repo so we get all branches
-  // because we might be testing in a separate branch
-  shell.exec(`git clone ${url}`)
-  shell.cd(args.repo)
+  .then(json => {
+    // need to clone entire repo so we get all branches
+    // because we might be testing in a separate branch
+    shell.exec(`git clone ${url}`)
+    shell.cd(args.repo)
 
-  const branch = json && json.branch
+    const branch = json && json.branch
 
-  if (branch) {
-    console.log('commit message specifies branch to test', branch)
-    console.log('trying to switch to remote branch', branch)
-    const cmd = `git checkout ${branch}`
-    try {
-      shell.exec(cmd)
-    } catch (e) {
-      console.error('Caught error trying to do', cmd)
-      console.error(e.message)
-      console.error('assuming we can work in the default branch')
+    if (branch) {
+      console.log('commit message specifies branch to test', branch)
+      console.log('trying to switch to remote branch', branch)
+      const cmd = `git checkout ${branch}`
+      try {
+        shell.exec(cmd)
+      } catch (e) {
+        console.error('Caught error trying to do', cmd)
+        console.error(e.message)
+        console.error('assuming we can work in the default branch')
+      }
+    } else {
+      console.log('there is no JSON / version in the commit message')
     }
-  } else {
-    console.log('there is no JSON / version in the commit message')
-  }
 
-  shell.exec('git log -1')
-  shell.rm('-rf', '.git')
-  shell.exec('npm install')
-  const cmi = join('..', 'node_modules', '.bin', 'commit-message-install')
-  shell.exec(cmi)
-  // show what commands are available
-  shell.exec('npm run')
-  shell.exec(`npm run ${args.command}`)
-})
-.catch((e) => {
-  console.error(e.message)
-  process.exit(1)
-})
+    shell.exec('git log -1')
+    shell.rm('-rf', '.git')
+    shell.exec('npm install')
+    const cmi = join('..', 'node_modules', '.bin', 'commit-message-install')
+    shell.exec(cmi)
+    // show what commands are available
+    shell.exec('npm run')
+
+    const cmd = `npm run ${args.command}`
+    if (json.commit) {
+      cmd += ' -- --group-id ' + json.commit
+    }
+    console.log('full test command')
+    console.log(cmd)
+    shell.exec(cmd)
+  })
+  .catch(e => {
+    console.error(e.message)
+    process.exit(1)
+  })
