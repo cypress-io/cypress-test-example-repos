@@ -6,18 +6,29 @@ const { getJsonFromGit } = require('commit-message-install')
 shell.set('-v') // verbose
 shell.set('-e') // any error is fatal
 
-const repoName = process.argv[2]
-if (!repoName) {
+const cliArguments = process.argv.slice(2)
+
+const args = require('minimist')(cliArguments, {
+  alias: {
+    repo: 'r',
+    command: 'c'
+  },
+  string: ['repo', 'command'],
+  default: {
+    command: 'test:ci'
+  }
+})
+
+if (!args.repo) {
   throw new Error('Missing repo name')
 }
-const testCommand = process.argv[3] || 'test:ci'
 
-const url = `https://github.com/cypress-io/${repoName}.git`
+const url = `https://github.com/cypress-io/${args.repo}.git`
 console.log('testing url', url)
-console.log('using command', testCommand)
+console.log('using command', args.command)
 
-if (existsSync(repoName)) {
-  shell.rm('-rf', repoName)
+if (existsSync(args.repo)) {
+  shell.rm('-rf', args.repo)
 }
 // now see if the commit message tells us a specific branch to test
 getJsonFromGit()
@@ -25,12 +36,14 @@ getJsonFromGit()
   // need to clone entire repo so we get all branches
   // because we might be testing in a separate branch
   shell.exec(`git clone ${url}`)
-  shell.cd(repoName)
+  shell.cd(args.repo)
 
-  if (json && json.branch) {
-    console.log('commit message specifies branch to test', json.branch)
-    console.log('trying to switch to remote branch', json.branch)
-    const cmd = `git checkout ${json.branch}`
+  const branch = json && json.branch
+
+  if (branch) {
+    console.log('commit message specifies branch to test', branch)
+    console.log('trying to switch to remote branch', branch)
+    const cmd = `git checkout ${branch}`
     try {
       shell.exec(cmd)
     } catch (e) {
@@ -49,7 +62,7 @@ getJsonFromGit()
   shell.exec(cmi)
   // show what commands are available
   shell.exec('npm run')
-  shell.exec(`npm run ${testCommand}`)
+  shell.exec(`npm run ${args.command}`)
 })
 .catch((e) => {
   console.error(e.message)

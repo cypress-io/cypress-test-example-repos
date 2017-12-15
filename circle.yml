@@ -15,6 +15,19 @@ defaults: &defaults
         COMMIT_MESSAGE_INSTALL: commit-message-install@1.7.0
 
 jobs:
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-group
+      - run: npm install
+      - save_cache:
+          key: root-group-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run lint
+
   "example-group-staging":
     <<: *defaults
     steps:
@@ -229,6 +242,7 @@ workflows:
   version: 2
   test-example-repos:
     jobs:
+      - lint
       - kitchensink
       - kitchensink-chrome
       - example-group-staging
