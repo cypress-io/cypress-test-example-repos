@@ -64,7 +64,7 @@ getJsonFromGit()
   shell.exec('npm run')
 
   let cmd = `npm run ${args.command}`
-  if (json.commit) {
+  if (json && json.commit) {
     cmd += ` -- --group-id ${json.commit}`
   }
   console.log('full test command')
