@@ -1,4 +1,5 @@
 const shell = require('shelljs')
+const execa = require('execa')
 const { existsSync } = require('fs')
 const { join } = require('path')
 const { getJsonFromGit } = require('commit-message-install')
@@ -27,6 +28,8 @@ const url = `https://github.com/cypress-io/${args.repo}.git`
 console.log('testing url', url)
 console.log('using command', args.command)
 
+const execOptions = { stdio: 'inherit' }
+
 if (existsSync(args.repo)) {
   shell.rm('-rf', args.repo)
 }
@@ -35,7 +38,7 @@ getJsonFromGit()
 .then((json) => {
   // need to clone entire repo so we get all branches
   // because we might be testing in a separate branch
-  shell.exec(`git clone ${url}`)
+  execa.shellSync(`git clone ${url}`, execOptions)
   shell.cd(args.repo)
 
   const branch = json && json.branch
@@ -45,7 +48,7 @@ getJsonFromGit()
     console.log('trying to switch to remote branch', branch)
     const cmd = `git checkout ${branch}`
     try {
-      shell.exec(cmd)
+      execa.shellSync(cmd, execOptions)
     } catch (e) {
       console.error('Caught error trying to do', cmd)
       console.error(e.message)
@@ -55,13 +58,14 @@ getJsonFromGit()
     console.log('there is no JSON / version in the commit message')
   }
 
-  shell.exec('git log -1')
+  execa.shellSync('git log -1', execOptions)
+
   shell.rm('-rf', '.git')
-  shell.exec('npm install')
+  execa.shellSync('npm install', execOptions)
   const cmi = join('..', 'node_modules', '.bin', 'commit-message-install')
-  shell.exec(cmi)
+  execa.shellSync(cmi, execOptions)
   // show what commands are available
-  shell.exec('npm run')
+  execa.shellSync('npm run', execOptions)
 
   const cmd = `npm run ${args.command}`
   // TODO pass group id somehow
@@ -75,7 +79,7 @@ getJsonFromGit()
   console.log('full test command')
   console.log(cmd)
 
-  shell.exec(cmd)
+  execa.shellSync(cmd, execOptions)
 })
 .catch((e) => {
   console.error(e.message)

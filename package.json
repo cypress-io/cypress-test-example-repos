@@ -25,6 +25,7 @@
     "commit-message-install": "1.10.1",
     "eslint": "4.13.1",
     "eslint-plugin-cypress-dev": "1.1.2",
+    "execa": "0.8.0",
     "minimist": "1.2.0",
     "npm-run-all": "4.1.2",
     "ok-file": "1.4.0",
