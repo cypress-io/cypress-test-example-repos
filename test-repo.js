@@ -62,7 +62,7 @@ getJsonFromGit()
   // because we might be testing in a separate branch
   execa.shellSync(`git clone ${url}`, execOptions)
 
-  const folderName = parseGitHubRepoUrl(args.repo)[1]
+  const folderName = parseGitHubRepoUrl(url)[1]
   console.log('cloned into folder %s', folderName)
   shell.cd(folderName)
 
