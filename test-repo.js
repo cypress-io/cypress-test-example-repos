@@ -1,3 +1,4 @@
+// @ts-check
 const shell = require('shelljs')
 const execa = require('execa')
 const { existsSync } = require('fs')
@@ -41,7 +42,7 @@ const formRepoUrl = (name) => {
   if (hasOwnerAndName(name)) {
     return `https://github.com/${name}.git`
   } else {
-    `https://github.com/cypress-io/${name}.git`
+    return `https://github.com/cypress-io/${name}.git`
   }
 }
 
