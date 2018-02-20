@@ -3,9 +3,16 @@ const execa = require('execa')
 const { existsSync } = require('fs')
 const { join } = require('path')
 const { getJsonFromGit } = require('commit-message-install')
+const is = require('check-more-types')
+const parseGitHubRepoUrl = require('parse-github-repo-url')
 
 shell.set('-v') // verbose
 shell.set('-e') // any error is fatal
+
+/*
+  Example: test repository cypress-io/foo-test
+    node ./test-repo.js --repo foo-test
+*/
 
 const cliArguments = process.argv.slice(2)
 
@@ -24,7 +31,21 @@ if (!args.repo) {
   throw new Error('Missing repo name')
 }
 
-const url = `https://github.com/cypress-io/${args.repo}.git`
+const hasOwnerAndName = (name) =>
+  name.split('/').length === 2
+
+const formRepoUrl = (name) => {
+  if (is.url(name)) {
+    return name
+  }
+  if (hasOwnerAndName(name)) {
+    return `https://github.com/${name}.git`
+  } else {
+    `https://github.com/cypress-io/${name}.git`
+  }
+}
+
+const url = formRepoUrl(args.repo)
 console.log('testing url', url)
 console.log('using command', args.command)
 
@@ -39,7 +60,10 @@ getJsonFromGit()
   // need to clone entire repo so we get all branches
   // because we might be testing in a separate branch
   execa.shellSync(`git clone ${url}`, execOptions)
-  shell.cd(args.repo)
+
+  const folderName = parseGitHubRepoUrl(args.repo)[1]
+  console.log('cloned into folder %s', folderName)
+  shell.cd(folderName)
 
   const branch = json && json.branch
 
