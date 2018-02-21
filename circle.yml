@@ -267,4 +267,4 @@ workflows:
       - todomvc-chrome
       - phonecat
       - piechopper
-    #   - cypress-svelte-unit-test
+      - cypress-svelte-unit-test
