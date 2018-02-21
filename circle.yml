@@ -4,14 +4,8 @@ defaults: &defaults
   parallelism: 1
   working_directory: ~/app
   docker:
-    - image: cypress/browsers:chrome63
+    - image: cypress/browsers:chrome64
       environment:
-        ## this enables colors + fixes failing unit tests
-        TERM: xterm
-        # avoid million NPM install messages
-        npm_config_loglevel: warn
-        # allow installing when the main user is root
-        npm_config_unsafe_perm: true
         COMMIT_MESSAGE_INSTALL: commit-message-install@1.10.1
 
 jobs:
@@ -322,6 +316,5 @@ workflows:
       - cypress-svelte-unit-test
       - cypress-vue-unit-test
       - cypress-react-unit-test
-    # enable once Node 8 is used
-    #   - cypress-hyperapp-unit-test
+      - cypress-hyperapp-unit-test
       - cypress-cycle-unit-test
