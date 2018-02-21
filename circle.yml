@@ -288,7 +288,7 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo bahmutov/cypress-hyperapp-unit-test --command test
+      - run: npm run test-if -- --repo bahmutov/cypress-hyperapp-unit-test --command test:ci
 
   cypress-cycle-unit-test:
     <<: *defaults
