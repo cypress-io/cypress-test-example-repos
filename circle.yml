@@ -322,5 +322,6 @@ workflows:
       - cypress-svelte-unit-test
       - cypress-vue-unit-test
       - cypress-react-unit-test
-      - cypress-hyperapp-unit-test
+    # enable once Node 8 is used
+    #   - cypress-hyperapp-unit-test
       - cypress-cycle-unit-test
