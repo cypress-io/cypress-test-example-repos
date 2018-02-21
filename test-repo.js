@@ -1,11 +1,12 @@
-// @ts-check
 const shell = require('shelljs')
 const execa = require('execa')
 const { existsSync } = require('fs')
 const { join } = require('path')
-const { getJsonFromGit } = require('commit-message-install')
+const { getJsonFromGit, npmInstall } = require('commit-message-install')
 const is = require('check-more-types')
 const parseGitHubRepoUrl = require('parse-github-repo-url')
+const fs = require('fs')
+const os = require('os')
 
 shell.set('-v') // verbose
 shell.set('-e') // any error is fatal
@@ -46,9 +47,17 @@ const formRepoUrl = (name) => {
   }
 }
 
+const nameFromUrl = (url) =>
+  parseGitHubRepoUrl(url)[1]
+
 const url = formRepoUrl(args.repo)
 console.log('testing url', url)
 console.log('using command', args.command)
+
+const repoName = nameFromUrl(url)
+const tmpDir = os.tmpdir()
+const localFolder = fs.mkdtempSync(join(tmpDir, repoName))
+console.log('local folder', localFolder)
 
 const execOptions = { stdio: 'inherit' }
 
@@ -58,13 +67,15 @@ if (existsSync(args.repo)) {
 // now see if the commit message tells us a specific branch to test
 getJsonFromGit()
 .then((json) => {
+  // we need this tool, so save its path right now
+  // const cmi = resolve(join('node_modules', '.bin', 'commit-message-install'))
+
   // need to clone entire repo so we get all branches
   // because we might be testing in a separate branch
-  execa.shellSync(`git clone ${url}`, execOptions)
+  execa.shellSync(`git clone ${url} ${localFolder}`, execOptions)
 
-  const folderName = parseGitHubRepoUrl(url)[1]
-  console.log('cloned into folder %s', folderName)
-  shell.cd(folderName)
+  console.log('cloned into folder %s', localFolder)
+  shell.cd(localFolder)
 
   const branch = json && json.branch
 
@@ -87,24 +98,18 @@ getJsonFromGit()
 
   shell.rm('-rf', '.git')
   execa.shellSync('npm install', execOptions)
-  const cmi = join('..', 'node_modules', '.bin', 'commit-message-install')
-  execa.shellSync(cmi, execOptions)
-  // show what commands are available
-  execa.shellSync('npm run', execOptions)
 
-  const cmd = `npm run ${args.command}`
-  // TODO pass group id somehow
-  // shell.exec breaks when trying to pass as env option
-  // const execOptions = {}
-  // if (json && json.commit) {
-  //   execOptions.env = {
-  //     CYPRESS_GROUP_ID: json.commit
-  //   }
-  // }
-  console.log('full test command')
-  console.log(cmd)
+  // execa.shellSync(cmi, execOptions)
+  return npmInstall(json).then(() => {
+    // show what commands are available
+    execa.shellSync('npm run', execOptions)
 
-  execa.shellSync(cmd, execOptions)
+    const cmd = `npm run ${args.command}`
+    console.log('full test command')
+    console.log(cmd)
+
+    execa.shellSync(cmd, execOptions)
+  })
 })
 .catch((e) => {
   console.error(e.message)
