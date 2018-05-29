@@ -304,8 +304,8 @@ workflows:
       - lint
       - kitchensink
       - kitchensink-chrome
-      - example-group-staging
-      - example-group-id-staging
+      # - example-group-staging
+      # - example-group-id-staging
       - recipes
       - recipes-chrome
       - todomvc
