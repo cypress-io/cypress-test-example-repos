@@ -106,6 +106,9 @@ jobs:
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
             $(npm bin)/run-if npm run cy:run -- --group --record --group-id $CIRCLE_BUILD_NUM
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   kitchensink:
     <<: *defaults
@@ -123,6 +126,9 @@ jobs:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/videos
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   "kitchensink-chrome":
     <<: *defaults
@@ -140,6 +146,9 @@ jobs:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/videos
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   recipes:
     <<: *defaults
@@ -153,6 +162,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:record
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   recipes-chrome:
     <<: *defaults
@@ -166,6 +178,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome:record
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   todomvc:
     <<: *defaults
@@ -179,6 +194,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   todomvc-headed:
     <<: *defaults
@@ -192,6 +210,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   todomvc-chrome:
     <<: *defaults
@@ -205,6 +226,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   phonecat:
     <<: *defaults
@@ -218,6 +242,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-phonecat --command test:ci
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   piechopper:
     <<: *defaults
@@ -231,6 +258,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-piechopper --command test:ci
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   cypress-svelte-unit-test:
     <<: *defaults
@@ -244,6 +274,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-svelte-unit-test --command test
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   cypress-vue-unit-test:
     <<: *defaults
@@ -257,6 +290,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-vue-unit-test --command test
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   cypress-react-unit-test:
     <<: *defaults
@@ -265,13 +301,14 @@ jobs:
       - restore_cache:
           key: root-deps
       - run: npm install
-      # temporary fix until https://github.com/bahmutov/cypress-react-unit-test/pull/67 is merged
-      - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command transpile
       - save_cache:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command test
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   cypress-hyperapp-unit-test:
     <<: *defaults
@@ -285,6 +322,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-hyperapp-unit-test --command test:ci
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
   cypress-cycle-unit-test:
     <<: *defaults
@@ -298,6 +338,9 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-cycle-unit-test --command test
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
 
 workflows:
   version: 2
