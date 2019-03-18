@@ -4,7 +4,7 @@ defaults: &defaults
   parallelism: 1
   working_directory: ~/app
   docker:
-    - image: cypress/browsers:chrome64
+    - image: cypress/browsers:chrome69
       environment:
         COMMIT_MESSAGE_INSTALL: commit-message-install@1.10.1
 
