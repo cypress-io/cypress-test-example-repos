@@ -181,9 +181,13 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome:record
-        # store NPM logs in case there was a problem
+      - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome
       - store_artifacts:
+          path: cypress-example-kitchensink/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/videos
+      - store_artifacts:
+          # store NPM logs in case there was a problem
           path: ~/.npm/_logs
 
   todomvc:
