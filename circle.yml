@@ -116,7 +116,7 @@ jobs:
           path: ~/.npm/_logs
 
   kitchensink-mac:
-    <<: *defaults
+    working_directory: ~/app
     executor: mac
     steps:
       - checkout
