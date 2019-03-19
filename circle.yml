@@ -216,6 +216,24 @@ jobs:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
 
+  todomvc-mac:
+    working_directory: ~/app
+    executor: mac
+    steps:
+      - checkout
+      - restore_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-
+      - run: npm install
+      - save_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
+
+
   todomvc:
     <<: *defaults
     steps:
@@ -401,6 +419,7 @@ workflows:
   mac-tests:
     jobs:
       - kitchensink-mac
+      - todomvc-mac
 
   linux-tests:
     jobs:
