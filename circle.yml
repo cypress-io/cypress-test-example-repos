@@ -1,4 +1,9 @@
-version: 2
+version: 2.1
+
+executors:
+  mac:
+    macos:
+      xcode: "10.1.0"
 
 defaults: &defaults
   parallelism: 1
@@ -110,15 +115,36 @@ jobs:
       - store_artifacts:
           path: ~/.npm/_logs
 
+  kitchensink-mac:
+    working_directory: ~/app
+    executor: mac
+    steps:
+      - checkout
+      - restore_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-
+      - run: npm install
+      - save_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run test-if -- --repo cypress-example-kitchensink
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/screenshots
+      - store_artifacts:
+          path: cypress-example-kitchensink/cypress/videos
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
+
   kitchensink:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
-          key: root-deps
+          key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
       - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-kitchensink
@@ -135,10 +161,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: root-deps
+          key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
       - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
@@ -190,15 +216,33 @@ jobs:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
 
+  todomvc-mac:
+    working_directory: ~/app
+    executor: mac
+    steps:
+      - checkout
+      - restore_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-
+      - run: npm install
+      - save_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
+
+
   todomvc:
     <<: *defaults
     steps:
       - checkout
       - restore_cache:
-          key: root-deps
+          key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
       - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
@@ -211,10 +255,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: root-deps
+          key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
       - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
@@ -227,10 +271,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: root-deps
+          key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
       - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
@@ -372,7 +416,12 @@ jobs:
 
 workflows:
   version: 2
-  test-example-repos:
+  mac-tests:
+    jobs:
+      - kitchensink-mac
+      - todomvc-mac
+
+  linux-tests:
     jobs:
       - lint
       - kitchensink
