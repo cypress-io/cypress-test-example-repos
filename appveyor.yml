@@ -6,8 +6,6 @@ environment:
 # Install scripts. (runs after repo cloning)
 install:
   - ps: Install-Product node $env:nodejs_version
-  # NPM v3 has flaky permission issues on Windows
-  - npm install -g npm@5
   # Output useful info for debugging.
   - node --version
   - npm --version
@@ -20,7 +18,7 @@ install:
 
 # Post-install test scripts.
 test_script:
-  - set DEBUG='cypress*' && npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record
+  - export DEBUG='cypress*' && npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record
   - npm run test-if -- --repo cypress-example-todomvc
   - npm run test-if -- --repo cypress-example-recipes --command test:ci:windows
   - npm run test-if -- --repo cypress-example-phonecat
