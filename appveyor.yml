@@ -21,7 +21,7 @@ install:
 # Post-install test scripts.
 test_script:
   - npm run test-if -- --repo cypress-example-todomvc
-  - npm run test-if -- --repo cypress-example-kitchensink
+  - npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record
   - npm run test-if -- --repo cypress-example-recipes
   - npm run test-if -- --repo cypress-example-phonecat
   - npm run test-if -- --repo cypress-example-piechopper
