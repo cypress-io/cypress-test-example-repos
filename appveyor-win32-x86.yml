@@ -1,0 +1,34 @@
+# https://www.appveyor.com/docs/appveyor-yml/
+skip_commits:
+  # do not run for testing new Linux builds
+  # or new Windows 64 bit builds
+  message: /Testing new (linux|win32 x64)/
+
+# https://www.appveyor.com/docs/lang/nodejs-iojs/
+# Test against the latest version of this Node.js version
+environment:
+  nodejs_version: "8"
+
+# Install scripts. (runs after repo cloning)
+install:
+  - ps: Install-Product node $env:nodejs_version
+  # Output useful info for debugging.
+  - node --version
+  - npm --version
+  - node -e "console.log(process.platform)"
+  - node -e "console.log(process.arch)"
+  # wait-on, npm-run-all and other useful utilities
+  - npm install
+  # for now install global utils that we might need to run example repos
+  - npm install -g wait-on npm-run-all ok-file commit-message-install@2 bin-up
+
+# Post-install test scripts.
+test_script:
+  - set DEBUG=cypress* && npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record
+  - npm run test-if -- --repo cypress-example-todomvc
+  - npm run test-if -- --repo cypress-example-recipes --command test:ci:windows
+  - npm run test-if -- --repo cypress-example-phonecat
+  - npm run test-if -- --repo cypress-example-piechopper
+
+# Don't actually build.
+build: off
