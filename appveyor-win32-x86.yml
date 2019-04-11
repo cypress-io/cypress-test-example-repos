@@ -4,6 +4,9 @@ skip_commits:
   # or new Windows 64 bit builds
   message: /Testing new (linux|win32 x64)/
 
+platform:
+  - x86
+
 # https://www.appveyor.com/docs/lang/nodejs-iojs/
 # Test against the latest version of this Node.js version
 environment:
