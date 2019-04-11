@@ -5,6 +5,29 @@ executors:
     macos:
       xcode: "10.1.0"
 
+commands:
+  early-stop:
+    description: |
+      Early halt if this commit is for testing binaries for different platform
+      Place this command AFTER checkout command because we need to look
+      at the commit subject text
+    parameters:
+      substring:
+        type: string
+        description: String to search for in the commit subject to skip build
+    steps:
+      - run:
+          name: Checking OS platform for "<< parameters.substring >>"
+          command: |
+            subject=$(git show -s --pretty=%s)
+            echo "Commit subject: $subject"
+
+            if [[ $subject == *"<< parameters.substring >>"* ]]; then
+              echo Skipping testing binary ⏭
+              echo Found string "<< parameters.substring >>"
+              circleci step halt
+            fi
+
 defaults: &defaults
   parallelism: 1
   working_directory: ~/app
@@ -18,6 +41,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-group
       - run: npm install
@@ -31,6 +56,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
           key: deps-example-group-staging
@@ -80,6 +107,8 @@ jobs:
     parallelism: 4
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - run: git clone https://github.com/cypress-io/cypress-example-group.git
       - restore_cache:
           key: deps-example-group-id-staging
@@ -120,6 +149,10 @@ jobs:
     executor: mac
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -140,6 +173,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -160,6 +195,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -180,6 +217,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -200,6 +239,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -221,6 +262,10 @@ jobs:
     executor: mac
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -233,11 +278,12 @@ jobs:
       - store_artifacts:
           path: ~/.npm/_logs
 
-
   todomvc:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -254,6 +300,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -270,6 +318,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -286,6 +336,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -302,6 +354,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -318,6 +372,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -334,6 +390,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -350,6 +408,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -366,6 +426,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -382,6 +444,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
@@ -398,6 +462,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - early-stop:
+          substring: Testing new win32
       - restore_cache:
           key: root-deps
       - run: npm install
