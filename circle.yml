@@ -16,6 +16,16 @@ commands:
           name: Set status check
           command: $(npm bin)/set-status --state failure --description "$CIRCLE_STAGE on CircleCI"
 
+  set-passed-status:
+    description: |
+      Sets commit status to success if necessary
+      for the original Test Runner commit.
+    steps:
+      - run:
+          when: on_success
+          name: Set status check
+          command: $(npm bin)/set-status --state success --description "on CircleCI"
+
   early-stop:
     description: |
       Early halt if this commit is for testing binaries for different platform
@@ -509,6 +519,15 @@ jobs:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
 
+  after-tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - early-stop:
+          substring: Testing new win32
+      - run: npm install
+      - set-passed-status
+
 workflows:
   version: 2
   mac-tests:
@@ -536,3 +555,22 @@ workflows:
       - cypress-hyperapp-unit-test
       - cypress-cycle-unit-test
       - workshop
+      # after all jobs finish successfully
+      # we can set success commit status
+      - after-tests:
+          requires:
+            - kitchensink
+            - kitchensink-chrome
+            - recipes
+            - recipes-chrome
+            - todomvc
+            - todomvc-headed
+            - todomvc-chrome
+            - phonecat
+            - piechopper
+            - cypress-svelte-unit-test
+            - cypress-vue-unit-test
+            - cypress-react-unit-test
+            - cypress-hyperapp-unit-test
+            - cypress-cycle-unit-test
+            - workshop
