@@ -525,7 +525,8 @@ jobs:
       - checkout
       - early-stop:
           substring: Testing new win32
-      - run: npm install
+      # we only need a single NPM package for status check
+      - run: npm install @cypress/commit-message-install
       - set-passed-status
 
 workflows:
