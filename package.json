@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-if": "run-if node ./test-repo.js",
     "lint": "eslint --fix test-repo.js",
-    "commit": "commit-wizard"
+    "commit": "commit-wizard",
+    "set-status": "set-status"
   },
   "private": true,
   "repository": {

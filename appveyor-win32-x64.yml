@@ -37,9 +37,9 @@ test_script:
 
 # set commit status if necessary
 on_success:
-  - $(npm bin)/set-status --state success --description "on AppVeyor"
+  - npm run set-status -- --state success --description "on AppVeyor"
 on_failure:
-  - $(npm bin)/set-status --state failure --description "on AppVeyor"
+  - npm run set-status -- --state failure --description "on AppVeyor"
 
 # Don't actually build.
 build: off
