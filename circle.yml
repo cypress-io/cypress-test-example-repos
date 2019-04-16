@@ -529,12 +529,29 @@ jobs:
       - run: npm install @cypress/commit-message-install
       - set-passed-status
 
+  after-tests-mac:
+    working_directory: ~/app
+    executor: mac
+    steps:
+      - checkout
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
+      # we only need a single NPM package for status check
+      - run: npm install @cypress/commit-message-install
+      - set-passed-status
+
 workflows:
   version: 2
   mac-tests:
     jobs:
       - kitchensink-mac
       - todomvc-mac
+      - after-tests-mac:
+          requires:
+            - kitchensink-mac
+            - todomvc-mac
 
   linux-tests:
     jobs:
