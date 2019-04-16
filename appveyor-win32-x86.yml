@@ -33,5 +33,11 @@ test_script:
   - npm run test-if -- --repo cypress-example-phonecat
   - npm run test-if -- --repo cypress-example-piechopper
 
+# set commit status if necessary
+on_success:
+  - $(npm bin)/set-status --state success --description "on AppVeyor"
+on_failure:
+  - $(npm bin)/set-status --state failure --description "on AppVeyor"
+
 # Don't actually build.
 build: off

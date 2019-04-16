@@ -1,4 +1,6 @@
 # https://www.appveyor.com/docs/appveyor-yml/
+# https://www.appveyor.com/docs/build-configuration/
+
 skip_commits:
   # do not run for testing new Linux builds
   # or new Windows 32 bit builds
@@ -32,6 +34,12 @@ test_script:
   - npm run test-if -- --repo cypress-example-recipes --command test:ci:windows
   - npm run test-if -- --repo cypress-example-phonecat
   - npm run test-if -- --repo cypress-example-piechopper
+
+# set commit status if necessary
+on_success:
+  - $(npm bin)/set-status --state success --description "on AppVeyor"
+on_failure:
+  - $(npm bin)/set-status --state failure --description "on AppVeyor"
 
 # Don't actually build.
 build: off
