@@ -6,6 +6,16 @@ executors:
       xcode: "10.1.0"
 
 commands:
+  set-failed-status:
+    description: |
+      Sets commit status to failures if necessary
+      for the original Test Runner commit.
+    steps:
+      - run:
+          when: on_fail
+          name: Set status check
+          command: $(npm bin)/set-status --state failure --description "$CIRCLE_STAGE on CircleCI"
+
   early-stop:
     description: |
       Early halt if this commit is for testing binaries for different platform
@@ -97,6 +107,7 @@ jobs:
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
             $(npm bin)/run-if npm run cy:run -- --group --record --browser chrome --group-id $CIRCLE_BUILD_NUM
+      - set-failed-status
 
   # pass explicit group id to run same tests multiple times
   # using CircleCI parallelism option
@@ -140,7 +151,8 @@ jobs:
             CYPRESS_PROJECT_ID=$EXAMPLE_GROUP_STAGING_PROJECT_ID \
             CYPRESS_RECORD_KEY=$EXAMPLE_GROUP_STAGING_RECORD_KEY \
             $(npm bin)/run-if npm run cy:run -- --group --record --group-id $CIRCLE_BUILD_NUM
-        # store NPM logs in case there was a problem
+      - set-failed-status
+      # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -161,6 +173,7 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-kitchensink
+      - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
@@ -183,6 +196,7 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-kitchensink
+      - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
@@ -205,6 +219,7 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
+      - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
@@ -227,6 +242,7 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
+      - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
@@ -249,6 +265,7 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome
+      - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
       - store_artifacts:
@@ -274,7 +291,8 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
-        # store NPM logs in case there was a problem
+      - set-failed-status
+      # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -292,7 +310,8 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
-        # store NPM logs in case there was a problem
+      - set-failed-status
+      # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -311,6 +330,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -329,6 +349,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -347,6 +368,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-phonecat --command test:ci
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -365,6 +387,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-piechopper --command test:ci
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -383,6 +406,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-svelte-unit-test --command test
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -401,6 +425,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-vue-unit-test --command test
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -419,6 +444,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command test
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -437,6 +463,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-hyperapp-unit-test --command test:ci
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -455,6 +482,7 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo bahmutov/cypress-cycle-unit-test --command test
         # store NPM logs in case there was a problem
+      - set-failed-status
       - store_artifacts:
           path: ~/.npm/_logs
 
@@ -472,6 +500,7 @@ jobs:
           paths:
             - node_modules
       - run: npm run test-if -- --repo testing-workshop-cypress --command ci
+      - set-failed-status
       - store_artifacts:
           path: testing-workshop-cypress/cypress/screenshots
       - store_artifacts:
