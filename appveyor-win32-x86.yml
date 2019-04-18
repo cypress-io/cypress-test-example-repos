@@ -23,7 +23,7 @@ install:
   # wait-on, npm-run-all and other useful utilities
   - npm install
   # for now install global utils that we might need to run example repos
-  - npm install -g wait-on npm-run-all ok-file @cypress/commit-message-install bin-up
+  # - npm install -g wait-on npm-run-all ok-file @cypress/commit-message-install bin-up
 
 # Post-install test scripts.
 test_script:
