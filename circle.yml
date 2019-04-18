@@ -53,8 +53,6 @@ defaults: &defaults
   working_directory: ~/app
   docker:
     - image: cypress/browsers:chrome69
-      environment:
-        COMMIT_MESSAGE_INSTALL: commit-message-install@2
 
 jobs:
   lint:
@@ -66,6 +64,7 @@ jobs:
       - restore_cache:
           key: root-group
       - run: npm install
+      - run: npm install @cypress/commit-message-install
       - save_cache:
           key: root-group-{{ checksum "package.json" }}
           paths:
@@ -93,7 +92,7 @@ jobs:
           command: npm install
       - run:
           working_directory: cypress-example-group
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          command: npm install @cypress/commit-message-install
       - save_cache:
           key: deps-example-group-staging-{{ checksum "cypress-example-group/package.json" }}
           paths:
@@ -145,7 +144,7 @@ jobs:
           command: npm install
       - run:
           working_directory: cypress-example-group
-          command: npm install $COMMIT_MESSAGE_INSTALL
+          command: npm install @cypress/commit-message-install
       - save_cache:
           key: deps-example-group-id-staging-{{ checksum "cypress-example-group/package.json" }}
           paths:
