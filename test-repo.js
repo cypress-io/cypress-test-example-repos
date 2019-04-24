@@ -3,6 +3,8 @@ const shell = require('shelljs')
 const execa = require('execa')
 const { existsSync } = require('fs')
 const { join } = require('path')
+
+debug('loading @cypress/commit-message-install')
 const {
   getJsonFromGit,
   npmInstall
