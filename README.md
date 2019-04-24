@@ -8,6 +8,10 @@ Build status | Description | YML
 
 [Contributing Guideline](/CONTRIBUTING.md)
 
+## Debugging
+
+Run with `DEBUG=cypress-test-example-repos` environment variable set
+
 ## License
 
 This project is licensed under the terms of the [MIT license](/LICENSE.md).
