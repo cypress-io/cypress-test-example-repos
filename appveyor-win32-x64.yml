@@ -22,9 +22,11 @@ install:
   - npm --version
   - node -e "console.log(process.platform)"
   - node -e "console.log(process.arch)"
-  - echo "env variable PORT is" %PORT%
-  - IF NOT DEFINED PORT SET "PORT=8080"
-  - echo "default PORT variable substitution is" %PORT%
+
+  # example how to set PORT environment variable if not set
+  # - IF NOT DEFINED PORT SET "PORT=8080"
+  # - echo "PORT variable is" %PORT%
+
   # wait-on, npm-run-all and other useful utilities
   - npm install
   # for now install global utils that we might need to run example repos
@@ -32,7 +34,7 @@ install:
 
 # Post-install test scripts.
 test_script:
-  - npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record
+  - npm run test-if -- --repo cypress-example-kitchensink --command test:ci:windows
   - npm run test-if -- --repo cypress-example-todomvc
   - npm run test-if -- --repo cypress-example-recipes --command test:ci:windows
   - npm run test-if -- --repo cypress-example-phonecat
