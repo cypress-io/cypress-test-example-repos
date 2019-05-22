@@ -22,8 +22,8 @@ install:
   - npm --version
   - node -e "console.log(process.platform)"
   - node -e "console.log(process.arch)"
-  - echo "env variable PORT is $PORT"
-  - echo "default PORT variable substitution is ${PORT:-8080}"
+  - echo "env variable PORT is" $PORT
+  - echo "default PORT variable substitution is" ${PORT:-8080}
   # wait-on, npm-run-all and other useful utilities
   - npm install
   # for now install global utils that we might need to run example repos
