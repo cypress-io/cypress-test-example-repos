@@ -1,3 +1,5 @@
+# cypress-test-example-repos [![renovate-app badge][renovate-badge]][renovate-app]
+
 Testing Cypress Test Runner against different example repos
 
 Build status | Description | YML
@@ -15,3 +17,6 @@ Run with `DEBUG=cypress-test-example-repos` environment variable set
 ## License
 
 This project is licensed under the terms of the [MIT license](/LICENSE.md).
+
+[renovate-badge]: https://img.shields.io/badge/renovate-app-blue.svg
+[renovate-app]: https://renovateapp.com/
