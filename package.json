@@ -37,7 +37,7 @@
     "print-arch": "1.0.0",
     "print-env": "0.1.1",
     "shelljs": "0.8.1",
-    "wait-on": "2.1.0"
+    "wait-on": "2.1.2"
   },
   "config": {
     "pre-git": {
