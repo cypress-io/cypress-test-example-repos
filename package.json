@@ -8,7 +8,8 @@
     "test-if": "run-if node ./test-repo.js",
     "lint": "eslint --fix test-repo.js",
     "commit": "commit-wizard",
-    "set-status": "set-status"
+    "set-status": "set-status",
+    "is-fork-pr": "is-fork-pr"
   },
   "private": true,
   "repository": {
@@ -30,6 +31,7 @@
     "eslint": "4.18.0",
     "eslint-plugin-cypress-dev": "1.1.2",
     "execa": "0.9.0",
+    "is-fork-pr": "2.3.0",
     "minimist": "1.2.0",
     "npm-run-all": "4.1.2",
     "ok-file": "1.4.0",

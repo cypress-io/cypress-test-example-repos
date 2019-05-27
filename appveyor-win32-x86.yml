@@ -24,6 +24,7 @@ install:
   - npm install
   # for now install global utils that we might need to run example repos
   - npm install wait-on npm-run-all ok-file bin-up
+  - npm run is-fork-pr
 
 # Post-install test scripts.
 test_script:
