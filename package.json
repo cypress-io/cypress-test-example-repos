@@ -9,7 +9,9 @@
     "lint": "eslint --fix test-repo.js",
     "commit": "commit-wizard",
     "set-status": "set-status",
-    "is-fork-pr": "is-fork-pr"
+    "is-fork-pr": "is-fork-pr",
+    "print-env": "print-env",
+    "has-env": "has-env"
   },
   "private": true,
   "repository": {
@@ -24,7 +26,7 @@
   },
   "homepage": "https://github.com/cypress-io/cypress-test-example-repos#readme",
   "devDependencies": {
-    "@bahmutov/print-env": "1.1.0",
+    "@bahmutov/print-env": "1.2.0",
     "@cypress/commit-message-install": "^2.6.2",
     "check-more-types": "2.24.0",
     "debug": "4.1.1",
