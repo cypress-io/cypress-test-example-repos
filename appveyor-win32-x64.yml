@@ -31,6 +31,9 @@ install:
   - npm install
   # for now install global utils that we might need to run example repos
   - npm install wait-on npm-run-all ok-file bin-up
+  - npm run is-fork-pr
+  - npm run print-env -- APPVEYOR
+  - npm run has-env -- GH
 
 # Post-install test scripts.
 test_script:
