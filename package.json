@@ -31,7 +31,7 @@
     "check-more-types": "2.24.0",
     "debug": "4.1.1",
     "eslint": "4.19.1",
-    "eslint-plugin-cypress-dev": "1.1.2",
+    "eslint-plugin-cypress-dev": "2.1.0",
     "execa": "0.11.0",
     "is-fork-pr": "2.3.0",
     "minimist": "1.2.0",
