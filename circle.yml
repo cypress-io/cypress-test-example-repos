@@ -63,6 +63,8 @@ jobs:
           substring: Testing new win32
       - restore_cache:
           key: root-group
+      - run: node --version
+      - run: npm --version
       - run: npm install
       - run: npm install @cypress/commit-message-install
       - save_cache:
