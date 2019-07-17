@@ -36,7 +36,8 @@ install:
   # - echo "PORT variable is" %PORT%
 
   # wait-on, npm-run-all and other useful utilities
-  - npm install
+  # retry installation several times if first fails due to flake
+  - npm install || npm install || npm install
   # for now install global utils that we might need to run example repos
   - npm install wait-on npm-run-all ok-file bin-up
   - npm run is-fork-pr
