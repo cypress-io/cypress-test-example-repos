@@ -473,6 +473,7 @@ workflows:
       - kitchensink-mac
       - todomvc-mac
       - after-tests-mac:
+          context: test-runner:commit-status-checks
           requires:
             - kitchensink-mac
             - todomvc-mac
@@ -498,6 +499,7 @@ workflows:
       # after all jobs finish successfully
       # we can set success commit status
       - after-tests:
+          context: test-runner:commit-status-checks
           requires:
             - kitchensink
             - kitchensink-chrome
