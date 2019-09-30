@@ -64,7 +64,7 @@ const tmpDir = os.tmpdir()
 const localFolder = fs.mkdtempSync(join(tmpDir, repoName))
 console.log('local folder', localFolder)
 
-const execOptions = { stdio: 'inherit' }
+const execOptions = { stdio: 'inherit', shell: true }
 
 if (existsSync(args.repo)) {
   shell.rm('-rf', args.repo)
@@ -77,7 +77,7 @@ getJsonFromGit()
 
   // need to clone entire repo so we get all branches
   // because we might be testing in a separate branch
-  execa.shellSync(`git clone ${url} ${localFolder}`, execOptions)
+  execa.sync(`git clone ${url} ${localFolder}`, execOptions)
 
   console.log('cloned into folder %s', localFolder)
   shell.cd(localFolder)
@@ -89,7 +89,7 @@ getJsonFromGit()
     console.log('trying to switch to remote branch', branch)
     const cmd = `git checkout ${branch}`
     try {
-      execa.shellSync(cmd, execOptions)
+      execa.sync(cmd, execOptions)
     } catch (e) {
       console.error('Caught error trying to do', cmd)
       console.error(e.message)
@@ -100,32 +100,31 @@ getJsonFromGit()
   }
 
   debug('git log -1')
-  execa.shellSync('git log -1', execOptions)
+  execa.sync('git log -1', execOptions)
 
   debug('removing .git folder')
   shell.rm('-rf', '.git')
 
   try {
     terminalBanner('npm install 1st attempt')
-    execa.shellSync('npm install', execOptions)
+    execa.sync('npm install', execOptions)
   } catch (e) {
     console.error('Caught an error trying to install NPM dependencies')
     console.error(e.message)
     terminalBanner('Trying npm install 2nd time')
-    execa.shellSync('npm install', execOptions)
+    execa.sync('npm install', execOptions)
   }
 
-  // execa.shellSync(cmi, execOptions)
   return npmInstall(json).then(() => {
     // show what commands are available
     debug('npm run')
-    execa.shellSync('npm run', execOptions)
+    execa.sync('npm run', execOptions)
 
     const cmd = `npm run ${args.command}`
     console.log('full test command')
     console.log(cmd)
 
-    execa.shellSync(cmd, execOptions)
+    execa.sync(cmd, execOptions)
   })
 })
 .catch((e) => {
