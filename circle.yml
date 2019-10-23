@@ -4,6 +4,8 @@ executors:
   mac:
     macos:
       xcode: "10.1.0"
+    environment:
+      TERM: "xterm"
 
 commands:
   set-failed-status:
