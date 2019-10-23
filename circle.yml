@@ -244,7 +244,7 @@ jobs:
           paths:
             - node_modules
       - run:
-          npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
           timeout: '3 minutes'
       - set-failed-status
       # store NPM logs in case there was a problem
