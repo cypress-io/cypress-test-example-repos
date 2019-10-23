@@ -92,7 +92,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-kitchensink
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink
+          timeout: '3 minutes'
       - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
@@ -116,7 +118,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-kitchensink
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink
+          timeout: '3 minutes'
       - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
@@ -140,7 +144,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
+          timeout: '3 minutes'
       - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
@@ -215,7 +221,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          timeout: '3 minutes'
       - set-failed-status
       # store NPM logs in case there was a problem
       - store_artifacts:
@@ -235,7 +243,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+      - run:
+          npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          timeout: '3 minutes'
       - set-failed-status
       # store NPM logs in case there was a problem
       - store_artifacts:
@@ -255,7 +265,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
+          timeout: '3 minutes'
         # store NPM logs in case there was a problem
       - set-failed-status
       - store_artifacts:
@@ -275,7 +287,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
+          timeout: '3 minutes'
         # store NPM logs in case there was a problem
       - set-failed-status
       - store_artifacts:
@@ -435,7 +449,9 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo testing-workshop-cypress --command ci
+      - run:
+          command: npm run test-if -- --repo testing-workshop-cypress --command ci
+          timeout: '5 minutes'
       - set-failed-status
       - store_artifacts:
           path: testing-workshop-cypress/cypress/screenshots
