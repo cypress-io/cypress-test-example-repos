@@ -96,10 +96,6 @@ jobs:
           command: npm run test-if -- --repo cypress-example-kitchensink
           timeout: '3 minutes'
       - set-failed-status
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/videos
         # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
@@ -122,10 +118,6 @@ jobs:
           command: npm run test-if -- --repo cypress-example-kitchensink
           timeout: '3 minutes'
       - set-failed-status
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/videos
         # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
@@ -148,10 +140,6 @@ jobs:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
           timeout: '3 minutes'
       - set-failed-status
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/videos
         # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
@@ -173,10 +161,6 @@ jobs:
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
       - set-failed-status
       - store_artifacts:
-          path: cypress-example-recipes/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-recipes/cypress/videos
-      - store_artifacts:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
 
@@ -196,10 +180,6 @@ jobs:
             - node_modules
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome
       - set-failed-status
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/screenshots
-      - store_artifacts:
-          path: cypress-example-kitchensink/cypress/videos
       - store_artifacts:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
