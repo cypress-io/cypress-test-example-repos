@@ -1,6 +1,9 @@
 version: 2.1
 
 executors:
+  cy-doc:
+    docker:
+      - image: cypress/browsers:chrome69
   mac:
     macos:
       xcode: "10.1.0"
@@ -53,8 +56,11 @@ commands:
 defaults: &defaults
   parallelism: 1
   working_directory: ~/app
-  docker:
-    - image: cypress/browsers:chrome69
+  parameters:
+    executor:
+      type: executor
+      default: cy-doc
+  executor: <<parameters.executor>>
 
 jobs:
   lint:
@@ -74,31 +80,6 @@ jobs:
           paths:
             - node_modules
       - run: npm run lint
-
-  kitchensink-mac:
-    working_directory: ~/app
-    executor: mac
-    steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new linux
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          command: npm run test-if -- --repo cypress-example-kitchensink
-          timeout: '3 minutes'
-      - set-failed-status
-        # store NPM logs in case there was a problem
-      - store_artifacts:
-          path: ~/.npm/_logs
 
   kitchensink:
     <<: *defaults
@@ -182,31 +163,6 @@ jobs:
       - set-failed-status
       - store_artifacts:
           # store NPM logs in case there was a problem
-          path: ~/.npm/_logs
-
-  todomvc-mac:
-    working_directory: ~/app
-    executor: mac
-    steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new linux
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
-          timeout: '3 minutes'
-      - set-failed-status
-      # store NPM logs in case there was a problem
-      - store_artifacts:
           path: ~/.npm/_logs
 
   todomvc:
@@ -467,19 +423,26 @@ jobs:
 # because each job needs to report its failure (if it really fails)
 # as a GH commit status, then each job needs
 # the status check security context with those environment variables
+mac-workflow: &mac-workflow
+  jobs:
+    - kitchensink:
+        name: "kitchensink mac"
+        context: test-runner:commit-status-checks
+        executor: mac
+    - todomvc:
+        name: "todomvc mac"
+        context: test-runner:commit-status-checks
+        executor: mac
+    - after-tests-mac:
+        context: test-runner:commit-status-checks
+        requires:
+          - kitchensink mac
+          - todomvc mac
+
 workflows:
   version: 2
   mac-tests:
-    jobs:
-      - kitchensink-mac:
-          context: test-runner:commit-status-checks
-      - todomvc-mac:
-          context: test-runner:commit-status-checks
-      - after-tests-mac:
-          context: test-runner:commit-status-checks
-          requires:
-            - kitchensink-mac
-            - todomvc-mac
+    <<: *mac-workflow
 
   linux-tests:
     jobs:
