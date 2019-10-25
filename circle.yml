@@ -110,9 +110,13 @@ jobs:
 
   recipes:
     <<: *defaults
+    parallelism: 6
     steps:
       - prepare
-      - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
+      # when running in parallel, the total number of parallel containers
+      # is in variable CIRCLE_NODE_TOTAL and the current container index in CIRCLE_NODE_INDEX
+      # which starts at 0 and goes to $CIRCLE_NODE_TOTAL - 1
+      - run: npm run test-if -- --repo cypress-example-recipes --command test:ci --chunk $CIRCLE_NODE_INDEX --total-chunks $CIRCLE_NODE_TOTAL
       - set-failed-status
       - store_artifacts:
           # store NPM logs in case there was a problem
@@ -122,7 +126,7 @@ jobs:
     <<: *defaults
     steps:
       - prepare
-      - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome
+      - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome --chunk $CIRCLE_NODE_INDEX --total-chunks $CIRCLE_NODE_TOTAL
       - set-failed-status
       - store_artifacts:
           # store NPM logs in case there was a problem
