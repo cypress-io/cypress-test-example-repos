@@ -4,6 +4,8 @@ executors:
   mac:
     macos:
       xcode: "10.1.0"
+    environment:
+      TERM: "xterm"
 
 commands:
   set-failed-status:
@@ -90,7 +92,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-kitchensink
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink
+          timeout: '3 minutes'
       - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
@@ -114,7 +118,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-kitchensink
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink
+          timeout: '3 minutes'
       - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
@@ -138,7 +144,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
+          timeout: '3 minutes'
       - set-failed-status
       - store_artifacts:
           path: cypress-example-kitchensink/cypress/screenshots
@@ -165,9 +173,9 @@ jobs:
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
       - set-failed-status
       - store_artifacts:
-          path: cypress-example-kitchensink/cypress/screenshots
+          path: cypress-example-recipes/cypress/screenshots
       - store_artifacts:
-          path: cypress-example-kitchensink/cypress/videos
+          path: cypress-example-recipes/cypress/videos
       - store_artifacts:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
@@ -213,7 +221,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          timeout: '3 minutes'
       - set-failed-status
       # store NPM logs in case there was a problem
       - store_artifacts:
@@ -233,7 +243,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          timeout: '3 minutes'
       - set-failed-status
       # store NPM logs in case there was a problem
       - store_artifacts:
@@ -253,7 +265,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
+          timeout: '3 minutes'
         # store NPM logs in case there was a problem
       - set-failed-status
       - store_artifacts:
@@ -273,7 +287,9 @@ jobs:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
+          timeout: '3 minutes'
         # store NPM logs in case there was a problem
       - set-failed-status
       - store_artifacts:
@@ -433,7 +449,9 @@ jobs:
           key: root-deps-{{ checksum "package.json" }}
           paths:
             - node_modules
-      - run: npm run test-if -- --repo testing-workshop-cypress --command ci
+      - run:
+          command: npm run test-if -- --repo testing-workshop-cypress --command ci
+          timeout: '5 minutes'
       - set-failed-status
       - store_artifacts:
           path: testing-workshop-cypress/cypress/screenshots
@@ -466,12 +484,17 @@ jobs:
       - run: npm install @cypress/commit-message-install
       - set-passed-status
 
+# because each job needs to report its failure (if it really fails)
+# as a GH commit status, then each job needs
+# the status check security context with those environment variables
 workflows:
   version: 2
   mac-tests:
     jobs:
-      - kitchensink-mac
-      - todomvc-mac
+      - kitchensink-mac:
+          context: test-runner:commit-status-checks
+      - todomvc-mac:
+          context: test-runner:commit-status-checks
       - after-tests-mac:
           context: test-runner:commit-status-checks
           requires:
@@ -481,21 +504,36 @@ workflows:
   linux-tests:
     jobs:
       - lint
-      - kitchensink
-      - kitchensink-chrome
-      - recipes
-      - recipes-chrome
-      - todomvc
-      - todomvc-headed
-      - todomvc-chrome
-      - phonecat
-      - piechopper
-      - cypress-svelte-unit-test
-      - cypress-vue-unit-test
-      - cypress-react-unit-test
-      - cypress-hyperapp-unit-test
-      - cypress-cycle-unit-test
-      - workshop
+      - kitchensink:
+          context: test-runner:commit-status-checks
+      - kitchensink-chrome:
+          context: test-runner:commit-status-checks
+      - recipes:
+          context: test-runner:commit-status-checks
+      - recipes-chrome:
+          context: test-runner:commit-status-checks
+      - todomvc:
+          context: test-runner:commit-status-checks
+      - todomvc-headed:
+          context: test-runner:commit-status-checks
+      - todomvc-chrome:
+          context: test-runner:commit-status-checks
+      - phonecat:
+          context: test-runner:commit-status-checks
+      - piechopper:
+          context: test-runner:commit-status-checks
+      - cypress-svelte-unit-test:
+          context: test-runner:commit-status-checks
+      - cypress-vue-unit-test:
+          context: test-runner:commit-status-checks
+      - cypress-react-unit-test:
+          context: test-runner:commit-status-checks
+      - cypress-hyperapp-unit-test:
+          context: test-runner:commit-status-checks
+      - cypress-cycle-unit-test:
+          context: test-runner:commit-status-checks
+      - workshop:
+          context: test-runner:commit-status-checks
       # after all jobs finish successfully
       # we can set success commit status
       - after-tests:
