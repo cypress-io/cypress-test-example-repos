@@ -110,6 +110,7 @@ jobs:
 
   recipes:
     <<: *defaults
+    parallelism: 6
     steps:
       - prepare
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
@@ -300,53 +301,53 @@ workflows:
   linux-tests:
     jobs:
       - lint
-      - kitchensink:
-          context: test-runner:commit-status-checks
-      - kitchensink-chrome:
-          context: test-runner:commit-status-checks
+      # - kitchensink:
+      #     context: test-runner:commit-status-checks
+      # - kitchensink-chrome:
+      #     context: test-runner:commit-status-checks
       - recipes:
           context: test-runner:commit-status-checks
-      - recipes-chrome:
-          context: test-runner:commit-status-checks
-      - todomvc:
-          context: test-runner:commit-status-checks
-      - todomvc-headed:
-          context: test-runner:commit-status-checks
-      - todomvc-chrome:
-          context: test-runner:commit-status-checks
-      - phonecat:
-          context: test-runner:commit-status-checks
-      - piechopper:
-          context: test-runner:commit-status-checks
-      - cypress-svelte-unit-test:
-          context: test-runner:commit-status-checks
-      - cypress-vue-unit-test:
-          context: test-runner:commit-status-checks
-      - cypress-react-unit-test:
-          context: test-runner:commit-status-checks
-      - cypress-hyperapp-unit-test:
-          context: test-runner:commit-status-checks
-      - cypress-cycle-unit-test:
-          context: test-runner:commit-status-checks
-      - workshop:
-          context: test-runner:commit-status-checks
-      # after all jobs finish successfully
-      # we can set success commit status
-      - after-tests:
-          context: test-runner:commit-status-checks
-          requires:
-            - kitchensink
-            - kitchensink-chrome
-            - recipes
-            - recipes-chrome
-            - todomvc
-            - todomvc-headed
-            - todomvc-chrome
-            - phonecat
-            - piechopper
-            - cypress-svelte-unit-test
-            - cypress-vue-unit-test
-            - cypress-react-unit-test
-            - cypress-hyperapp-unit-test
-            - cypress-cycle-unit-test
-            - workshop
+      # - recipes-chrome:
+      #     context: test-runner:commit-status-checks
+      # - todomvc:
+      #     context: test-runner:commit-status-checks
+      # - todomvc-headed:
+      #     context: test-runner:commit-status-checks
+      # - todomvc-chrome:
+      #     context: test-runner:commit-status-checks
+      # - phonecat:
+      #     context: test-runner:commit-status-checks
+      # - piechopper:
+      #     context: test-runner:commit-status-checks
+      # - cypress-svelte-unit-test:
+      #     context: test-runner:commit-status-checks
+      # - cypress-vue-unit-test:
+      #     context: test-runner:commit-status-checks
+      # - cypress-react-unit-test:
+      #     context: test-runner:commit-status-checks
+      # - cypress-hyperapp-unit-test:
+      #     context: test-runner:commit-status-checks
+      # - cypress-cycle-unit-test:
+      #     context: test-runner:commit-status-checks
+      # - workshop:
+      #     context: test-runner:commit-status-checks
+      # # after all jobs finish successfully
+      # # we can set success commit status
+      # - after-tests:
+      #     context: test-runner:commit-status-checks
+      #     requires:
+      #       - kitchensink
+      #       - kitchensink-chrome
+      #       - recipes
+      #       - recipes-chrome
+      #       - todomvc
+      #       - todomvc-headed
+      #       - todomvc-chrome
+      #       - phonecat
+      #       - piechopper
+      #       - cypress-svelte-unit-test
+      #       - cypress-vue-unit-test
+      #       - cypress-react-unit-test
+      #       - cypress-hyperapp-unit-test
+      #       - cypress-cycle-unit-test
+      #       - workshop
