@@ -33,9 +33,7 @@ const args = require('minimist')(cliArguments, {
   string: ['repo', 'command'],
   number: ['chunk', 'total-chunks'],
   default: {
-    command: 'test:ci',
-    chunk: 0,
-    'total-chunks': 1
+    command: 'test:ci'
   }
 })
 
@@ -61,7 +59,15 @@ const nameFromUrl = (url) => parseGitHubRepoUrl(url)[1]
 const url = formRepoUrl(args.repo)
 console.log('testing url', url)
 console.log('using command', args.command)
-console.log('chunk %d of %d', args.chunk, args['total-chunks'])
+
+const hasChunks = () =>
+  typeof args.chunk === 'number' && typeof args['total-chunks'] === 'number'
+
+if (hasChunks()) {
+  console.log('chunk %d of %d', args.chunk, args['total-chunks'])
+} else {
+  console.log('no chunking')
+}
 
 const repoName = nameFromUrl(url)
 const tmpDir = os.tmpdir()
@@ -126,13 +132,26 @@ getJsonFromGit()
     debug('npm run')
     execa.sync('npm run', execOptions)
 
-    const cmd = `npm run ${args.command} -- --chunk ${
-      args.chunk
-    } --total-chunks ${args['total-chunks']}`
+    const commandArguments = ['run', args.command]
+    if (hasChunks()) {
+      console.log('adding chunk parameters')
+      commandArguments.push(
+        '--',
+        '--chunk',
+        args.chunk,
+        '--total-chunks',
+        args['total-chunks']
+      )
+    }
+    const cmd = 'npm'
     console.log('full test command')
-    console.log(cmd)
+    console.log(cmd, commandArguments.join(' '))
 
-    execa.sync(cmd, execOptions)
+    const runAsCommand = {
+      stdio: execOptions.stdio,
+      shell: false
+    }
+    execa.sync(cmd, commandArguments, runAsCommand)
   })
 })
 .catch((e) => {

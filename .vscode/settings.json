@@ -3,5 +3,6 @@
   "eslint.enable": true,
   "eslint.autoFixOnSave": true,
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
   "git.ignoreLimitWarning": true
 }
