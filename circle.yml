@@ -81,35 +81,13 @@ jobs:
   lint:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-group
-      - run: node --version
-      - run: npm --version
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-group-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run lint
 
   kitchensink:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink
           timeout: '3 minutes'
@@ -121,17 +99,7 @@ jobs:
   "kitchensink-chrome":
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:chrome
           timeout: '3 minutes'
@@ -143,17 +111,7 @@ jobs:
   recipes:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
       - set-failed-status
       - store_artifacts:
@@ -163,17 +121,7 @@ jobs:
   recipes-chrome:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci:chrome
       - set-failed-status
       - store_artifacts:
@@ -219,17 +167,7 @@ jobs:
   phonecat:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo cypress-example-phonecat --command test:ci
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -239,17 +177,7 @@ jobs:
   piechopper:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo cypress-example-piechopper --command test:ci
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -259,17 +187,7 @@ jobs:
   cypress-svelte-unit-test:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo bahmutov/cypress-svelte-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -279,17 +197,7 @@ jobs:
   cypress-vue-unit-test:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo bahmutov/cypress-vue-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -299,17 +207,7 @@ jobs:
   cypress-react-unit-test:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -319,17 +217,7 @@ jobs:
   cypress-hyperapp-unit-test:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo bahmutov/cypress-hyperapp-unit-test --command test:ci
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -339,17 +227,7 @@ jobs:
   cypress-cycle-unit-test:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run: npm run test-if -- --repo bahmutov/cypress-cycle-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
@@ -359,17 +237,7 @@ jobs:
   workshop:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run:
           command: npm run test-if -- --repo testing-workshop-cypress --command ci
           timeout: '5 minutes'
