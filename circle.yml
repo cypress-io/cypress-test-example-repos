@@ -173,9 +173,9 @@ jobs:
       - run: npm run test-if -- --repo cypress-example-recipes --command test:ci
       - set-failed-status
       - store_artifacts:
-          path: cypress-example-kitchensink/cypress/screenshots
+          path: cypress-example-recipes/cypress/screenshots
       - store_artifacts:
-          path: cypress-example-kitchensink/cypress/videos
+          path: cypress-example-recipes/cypress/videos
       - store_artifacts:
           # store NPM logs in case there was a problem
           path: ~/.npm/_logs
