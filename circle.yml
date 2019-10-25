@@ -53,6 +53,21 @@ commands:
               circleci step halt
             fi
 
+  prepare:
+    description: Install dependencies and tools
+    steps:
+      - checkout
+      - early-stop:
+          substring: Testing new win32
+      - restore_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-
+      - run: npm install
+      - run: npm install @cypress/commit-message-install
+      - save_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
 defaults: &defaults
   parallelism: 1
   working_directory: ~/app
@@ -168,17 +183,7 @@ jobs:
   todomvc:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
           timeout: '3 minutes'
@@ -190,17 +195,7 @@ jobs:
   todomvc-headed:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:headed
           timeout: '3 minutes'
@@ -212,17 +207,7 @@ jobs:
   todomvc-chrome:
     <<: *defaults
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - run: npm install @cypress/commit-message-install
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - prepare
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:chrome
           timeout: '3 minutes'
