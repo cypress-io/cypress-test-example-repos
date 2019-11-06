@@ -171,6 +171,17 @@ jobs:
       - set-failed-status
       - store-npm-logs
 
+  # example repo with TodoMVC with full code coverage
+  todomvc-redux:
+    <<: *defaults
+    steps:
+      - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc-redux --command test
+          timeout: '3 minutes'
+      - set-failed-status
+      - store-npm-logs
+
   phonecat:
     <<: *defaults
     steps:
@@ -312,6 +323,8 @@ workflows:
           context: test-runner:commit-status-checks
       - todomvc-chrome:
           context: test-runner:commit-status-checks
+      - todomvc-redux:
+          context: test-runner:commit-status-checks
       - phonecat:
           context: test-runner:commit-status-checks
       - piechopper:
@@ -340,6 +353,7 @@ workflows:
             - todomvc
             - todomvc-headed
             - todomvc-chrome
+            - todomvc-redux
             - phonecat
             - piechopper
             - cypress-svelte-unit-test
