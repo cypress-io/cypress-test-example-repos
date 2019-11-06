@@ -68,6 +68,12 @@ commands:
           paths:
             - node_modules
 
+  store-npm-logs:
+    description: Save any NPM error logs as artifacts
+    steps:
+      - store_artifacts:
+          path: ~/.npm/_logs
+
 defaults: &defaults
   parallelism: 1
   working_directory: ~/app
@@ -141,9 +147,7 @@ jobs:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
           timeout: '3 minutes'
       - set-failed-status
-      # store NPM logs in case there was a problem
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   todomvc-headed:
     <<: *defaults
@@ -154,8 +158,7 @@ jobs:
           timeout: '3 minutes'
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   todomvc-chrome:
     <<: *defaults
@@ -166,8 +169,18 @@ jobs:
           timeout: '3 minutes'
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
+
+  # example repo with TodoMVC with full code coverage
+  todomvc-redux:
+    <<: *defaults
+    steps:
+      - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc-redux --command test
+          timeout: '3 minutes'
+      - set-failed-status
+      - store-npm-logs
 
   phonecat:
     <<: *defaults
@@ -176,8 +189,7 @@ jobs:
       - run: npm run test-if -- --repo cypress-example-phonecat --command test:ci
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   piechopper:
     <<: *defaults
@@ -186,8 +198,7 @@ jobs:
       - run: npm run test-if -- --repo cypress-example-piechopper --command test:ci
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   cypress-svelte-unit-test:
     <<: *defaults
@@ -196,8 +207,7 @@ jobs:
       - run: npm run test-if -- --repo bahmutov/cypress-svelte-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   cypress-vue-unit-test:
     <<: *defaults
@@ -206,8 +216,7 @@ jobs:
       - run: npm run test-if -- --repo bahmutov/cypress-vue-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   cypress-react-unit-test:
     <<: *defaults
@@ -216,8 +225,7 @@ jobs:
       - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   cypress-hyperapp-unit-test:
     <<: *defaults
@@ -226,8 +234,7 @@ jobs:
       - run: npm run test-if -- --repo bahmutov/cypress-hyperapp-unit-test --command test:ci
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   cypress-cycle-unit-test:
     <<: *defaults
@@ -236,8 +243,7 @@ jobs:
       - run: npm run test-if -- --repo bahmutov/cypress-cycle-unit-test --command test
         # store NPM logs in case there was a problem
       - set-failed-status
-      - store_artifacts:
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   workshop:
     <<: *defaults
@@ -251,9 +257,7 @@ jobs:
           path: testing-workshop-cypress/cypress/screenshots
       - store_artifacts:
           path: testing-workshop-cypress/cypress/videos
-      - store_artifacts:
-          # store NPM logs in case there was a problem
-          path: ~/.npm/_logs
+      - store-npm-logs
 
   after-tests:
     <<: *defaults
@@ -319,6 +323,8 @@ workflows:
           context: test-runner:commit-status-checks
       - todomvc-chrome:
           context: test-runner:commit-status-checks
+      - todomvc-redux:
+          context: test-runner:commit-status-checks
       - phonecat:
           context: test-runner:commit-status-checks
       - piechopper:
@@ -347,6 +353,7 @@ workflows:
             - todomvc
             - todomvc-headed
             - todomvc-chrome
+            - todomvc-redux
             - phonecat
             - piechopper
             - cypress-svelte-unit-test
