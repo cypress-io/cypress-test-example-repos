@@ -7,6 +7,9 @@ executors:
   node10:
     docker:
       - image: cypress/base:10.16.0
+    environment:
+      # allow post-install hooks
+      npm_config_unsafe_perm: true
   mac:
     macos:
       xcode: "10.1.0"
