@@ -4,6 +4,9 @@ executors:
   cy-doc:
     docker:
       - image: cypress/browsers:chrome69
+  node10:
+    docker:
+      - image: cypress/base:10.16.0
   mac:
     macos:
       xcode: "10.1.0"
@@ -182,6 +185,16 @@ jobs:
       - set-failed-status
       - store-npm-logs
 
+  realworld:
+    <<: *defaults
+    steps:
+      - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-realworld --command test
+          timeout: '3 minutes'
+      - set-failed-status
+      - store-npm-logs
+
   phonecat:
     <<: *defaults
     steps:
@@ -325,6 +338,10 @@ workflows:
           context: test-runner:commit-status-checks
       - todomvc-redux:
           context: test-runner:commit-status-checks
+      - realworld:
+          context: test-runner:commit-status-checks
+          # for now that repo requires Node 10 to run
+          executor: node10
       - phonecat:
           context: test-runner:commit-status-checks
       - piechopper:
@@ -354,6 +371,7 @@ workflows:
             - todomvc-headed
             - todomvc-chrome
             - todomvc-redux
+            - realworld
             - phonecat
             - piechopper
             - cypress-svelte-unit-test
