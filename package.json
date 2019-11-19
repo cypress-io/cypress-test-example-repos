@@ -39,7 +39,7 @@
     "ok-file": "1.4.0",
     "parse-github-repo-url": "1.4.1",
     "print-arch": "1.0.0",
-    "print-env": "0.1.1",
+    "print-env": "0.1.2",
     "shelljs": "0.8.3",
     "terminal-banner": "1.1.0",
     "wait-on": "3.3.0"
