@@ -111,8 +111,8 @@ getJsonFromGit()
 
   // this could be dangerous if the subject message is very very long
   // TODO pipe output straight to STDOUT instead
-  debug('git log -1')
-  execa.sync('git log -1', execOptions)
+  // debug('git log -1')
+  // execa.sync('git log -1', execOptions)
 
   debug('removing .git folder')
   shell.rm('-rf', '.git')
