@@ -27,7 +27,7 @@
   "homepage": "https://github.com/cypress-io/cypress-test-example-repos#readme",
   "devDependencies": {
     "@bahmutov/print-env": "1.2.0",
-    "@cypress/commit-message-install": "2.7.0",
+    "@cypress/commit-message-install": "3.0.1",
     "check-more-types": "2.24.0",
     "debug": "4.1.1",
     "eslint": "6.7.1",
