@@ -60,6 +60,10 @@ commands:
               circleci step halt
             fi
 
+  install-tools:
+    steps:
+      - run: npm install @cypress/commit-message-install@2.5.5
+
   prepare:
     description: Install dependencies and tools
     steps:
@@ -69,7 +73,7 @@ commands:
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
-      - run: npm install @cypress/commit-message-install
+      - install-tools
       - save_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -283,7 +287,7 @@ jobs:
       - early-stop:
           substring: Testing new win32
       # we only need a single NPM package for status check
-      - run: npm install @cypress/commit-message-install
+      - install-tools
       - set-passed-status
 
   after-tests-mac:
@@ -296,7 +300,7 @@ jobs:
       - early-stop:
           substring: Testing new linux
       # we only need a single NPM package for status check
-      - run: npm install @cypress/commit-message-install
+      - install-tools
       - set-passed-status
 
 # because each job needs to report its failure (if it really fails)
