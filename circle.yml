@@ -62,7 +62,7 @@ commands:
 
   install-tools:
     steps:
-      - run: npm install @cypress/commit-message-install@2.5.5
+      - run: npm install @cypress/commit-message-install@3
 
   prepare:
     description: Install dependencies and tools
