@@ -30,7 +30,7 @@
     "@cypress/commit-message-install": "3.0.1",
     "check-more-types": "2.24.0",
     "debug": "4.1.1",
-    "eslint": "6.7.1",
+    "eslint": "6.7.2",
     "eslint-plugin-cypress-dev": "1.1.2",
     "execa": "3.4.0",
     "is-fork-pr": "2.5.0",
