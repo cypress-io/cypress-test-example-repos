@@ -280,6 +280,26 @@ jobs:
           path: testing-workshop-cypress/cypress/videos
       - store-npm-logs
 
+  cypress-example-reporters-mochawesome:
+    <<: *defaults
+    steps:
+      - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-reporters --command test:mochawesome
+          timeout: '3 minutes'
+      - set-failed-status
+      - store-npm-logs
+
+  cypress-example-reporters-junit:
+        <<: *defaults
+        steps:
+          - prepare
+          - run:
+              command: npm run test-if -- --repo cypress-example-reporters --command test:junit
+              timeout: '3 minutes'
+          - set-failed-status
+          - store-npm-logs
+
   after-tests:
     <<: *defaults
     steps:
@@ -330,6 +350,10 @@ workflows:
   linux-tests:
     jobs:
       - lint
+      - cypress-example-reporters-mochawesome:
+          context: test-runner:commit-status-checks
+      - cypress-example-reporters-junit:
+          context: test-runner:commit-status-checks
       - kitchensink:
           context: test-runner:commit-status-checks
       - kitchensink-chrome:
@@ -388,3 +412,5 @@ workflows:
             - cypress-hyperapp-unit-test
             - cypress-cycle-unit-test
             - workshop
+            - cypress-example-reporters-mochawesome
+            - cypress-example-reporters-junit
