@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cy-doc:
     docker:
-      - image: cypress/browsers:node13.6.0-chrome80-ff72
+      - image: cypress/browsers:node13.6.0-chrome-80-ff72
   node10:
     docker:
       - image: cypress/base:10.16.0
