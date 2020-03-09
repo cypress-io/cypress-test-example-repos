@@ -257,15 +257,6 @@ jobs:
       - set-failed-status
       - store-npm-logs
 
-  cypress-cycle-unit-test:
-    <<: *defaults
-    steps:
-      - prepare
-      - run: npm run test-if -- --repo bahmutov/cypress-cycle-unit-test --command test
-        # store NPM logs in case there was a problem
-      - set-failed-status
-      - store-npm-logs
-
   workshop:
     <<: *defaults
     steps:
@@ -386,8 +377,6 @@ workflows:
           context: test-runner:commit-status-checks
       - cypress-hyperapp-unit-test:
           context: test-runner:commit-status-checks
-      - cypress-cycle-unit-test:
-          context: test-runner:commit-status-checks
       - workshop:
           context: test-runner:commit-status-checks
       # after all jobs finish successfully
@@ -410,7 +399,6 @@ workflows:
             - cypress-vue-unit-test
             - cypress-react-unit-test
             - cypress-hyperapp-unit-test
-            - cypress-cycle-unit-test
             - workshop
             - cypress-example-reporters-mochawesome
             - cypress-example-reporters-junit
