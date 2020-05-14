@@ -73,7 +73,6 @@ commands:
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
-      - run: npm run build --if-present
       - install-tools
       - save_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}

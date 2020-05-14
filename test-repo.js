@@ -132,6 +132,9 @@ getJsonFromGit()
     debug('npm run')
     execa.sync('npm run', execOptions)
 
+    console.log('trying to build if necessary')
+    execa.sync('npm run build --if-present', execOptions)
+
     const commandArguments = ['run', args.command]
     if (hasChunks()) {
       console.log('adding chunk parameters')
