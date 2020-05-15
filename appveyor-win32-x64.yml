@@ -14,7 +14,7 @@ platform:
 # the variables can be encrypted at
 # https://ci.appveyor.com/tools/encrypt
 environment:
-  nodejs_version: "8"
+  nodejs_version: "12"
   # authenticate as Cypress bot when posting commit status checks
   GH_APP_ID:
     secure: oR0RVDbv6GKej4wwjkz7Zw==
