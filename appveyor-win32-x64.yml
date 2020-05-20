@@ -49,7 +49,9 @@ install:
 test_script:
   - npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
   - npm run test-if -- --repo cypress-example-todomvc
-  - npm run test-if -- --repo cypress-example-recipes --command test:ci:windows
+  # NOTE: skip for now, this is causing the appveyor job to eventually time out after 1 hour
+  # because of the abundance of example-recipes
+  #  - npm run test-if -- --repo cypress-example-recipes --command test:ci:windows
   - npm run test-if -- --repo cypress-example-phonecat
   - npm run test-if -- --repo cypress-example-piechopper
 
