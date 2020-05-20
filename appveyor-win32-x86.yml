@@ -32,6 +32,7 @@ install:
   # wait-on, npm-run-all and other useful utilities
   # retry installation several times if first fails due to flake
   - npm install || npm install || npm install
+  - npm run set-status -- --state pending --description "on AppVeyor"
   # for now install global utils that we might need to run example repos
   - npm install wait-on npm-run-all ok-file bin-up
   - npm run is-fork-pr
