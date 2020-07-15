@@ -51,6 +51,7 @@ test_script:
   # NOTE: skip for now, failing in appveyor for unknown reason
   # see https://github.com/cypress-io/cypress-test-example-repos/pull/97
   # - npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
+  - npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows:firefox
   - npm run test-if -- --repo cypress-example-todomvc
   # NOTE: skip for now, this is causing the appveyor job to eventually time out after 1 hour
   # because of the abundance of example-recipes
