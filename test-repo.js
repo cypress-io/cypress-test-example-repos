@@ -128,6 +128,9 @@ getJsonFromGit()
   }
 
   return npmInstall(json).then(() => {
+    debug('cypress version')
+    execa.sync('npx cypress version', execOptions)
+
     // show what commands are available
     debug('npm run')
     execa.sync('npm run', execOptions)
