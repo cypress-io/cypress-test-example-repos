@@ -230,23 +230,23 @@ jobs:
   #     - set-failed-status
   #     - store-npm-logs
 
-  cypress-vue-unit-test:
-    <<: *defaults
-    steps:
-      - prepare
-      - run: npm run test-if -- --repo bahmutov/cypress-vue-unit-test --command test
-        # store NPM logs in case there was a problem
-      - set-failed-status
-      - store-npm-logs
+  # cypress-vue-unit-test:
+  #   <<: *defaults
+  #   steps:
+  #     - prepare
+  #     - run: npm run test-if -- --repo bahmutov/cypress-vue-unit-test --command test
+  #       # store NPM logs in case there was a problem
+  #     - set-failed-status
+  #     - store-npm-logs
 
-  cypress-react-unit-test:
-    <<: *defaults
-    steps:
-      - prepare
-      - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command test
-        # store NPM logs in case there was a problem
-      - set-failed-status
-      - store-npm-logs
+  # cypress-react-unit-test:
+  #   <<: *defaults
+  #   steps:
+  #     - prepare
+  #     - run: npm run test-if -- --repo bahmutov/cypress-react-unit-test --command test
+  #       # store NPM logs in case there was a problem
+  #     - set-failed-status
+  #     - store-npm-logs
 
   workshop:
     <<: *defaults
@@ -364,10 +364,12 @@ workflows:
       # https://circleci.com/gh/cypress-io/cypress-test-example-repos/110563
       # - cypress-svelte-unit-test:
       #     context: test-runner:commit-status-checks
-      - cypress-vue-unit-test:
-          context: test-runner:commit-status-checks
-      - cypress-react-unit-test:
-          context: test-runner:commit-status-checks
+      # TODO: fix - extremely flaky in CI
+      # - cypress-vue-unit-test:
+      #     context: test-runner:commit-status-checks
+      # TODO: fix - extremely flaky in CI
+      # - cypress-react-unit-test:
+      #     context: test-runner:commit-status-checks
       - workshop:
           context: test-runner:commit-status-checks
       # after all jobs finish successfully
@@ -387,8 +389,8 @@ workflows:
             - phonecat
             - piechopper
             # - cypress-svelte-unit-test
-            - cypress-vue-unit-test
-            - cypress-react-unit-test
+            # - cypress-vue-unit-test
+            # - cypress-react-unit-test
             - workshop
             - cypress-example-reporters-mochawesome
             - cypress-example-reporters-junit
