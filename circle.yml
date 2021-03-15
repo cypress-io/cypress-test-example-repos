@@ -124,14 +124,28 @@ jobs:
     steps:
       - prepare
       - run:
-          command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:windows
+          command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
           timeout: '3 minutes'
       - set-failed-status
         # store NPM logs in case there was a problem
       - store_artifacts:
           path: ~/.npm/_logs
 
-  "kitchensink-chrome":
+  kitchensink-windows-chrome:
+    executor:
+      name: windows/default
+      shell: bash.exe
+    steps:
+      - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows:chrome
+          timeout: '3 minutes'
+      - set-failed-status
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
+
+  kitchensink-chrome:
     <<: *defaults
     steps:
       - prepare
@@ -360,10 +374,12 @@ mac-workflow: &mac-workflow
 win-workflow: &win-workflow
   jobs:
     - kitchensink-windows
+    - kitchensink-windows-chrome
     - after-tests-windows:
         context: test-runner:commit-status-checks
         requires:
           - kitchensink-windows
+          - kitchensink-windows-chrome
 
 workflows:
   version: 2
