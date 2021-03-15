@@ -119,7 +119,7 @@ jobs:
 
   kitchensink-windows:
     executor:
-      name: win/vs2019
+      name: windows/default
       shell: bash.exe
     steps:
       - prepare
@@ -304,6 +304,9 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      # stop running this job if testing Mac or Windows commit
+      - early-stop:
+          substring: Testing new darwin
       - early-stop:
           substring: Testing new win32
       # we only need a single NPM package for status check
@@ -319,6 +322,18 @@ jobs:
           substring: Testing new win32
       - early-stop:
           substring: Testing new linux
+      # we only need a single NPM package for status check
+      - install-tools
+      - set-passed-status
+
+  after-tests-windows:
+    executor: windows/default
+    steps:
+      - checkout
+      - early-stop:
+          substring: Testing new linux
+      - early-stop:
+          substring: Testing new darwin
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
@@ -352,6 +367,9 @@ win-workflow: &win-workflow
 
 workflows:
   version: 2
+  win-tests:
+    <<: *win-workflow
+
   # mac-tests:
   #   <<: *mac-workflow
 
