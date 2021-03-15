@@ -124,7 +124,7 @@ jobs:
     steps:
       - prepare
       - run:
-          command: npm run test-if -- --repo cypress-example-kitchensink
+          command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:windows
           timeout: '3 minutes'
       - set-failed-status
         # store NPM logs in case there was a problem
