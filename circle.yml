@@ -1,9 +1,5 @@
 version: 2.1
 
-orbs:
-  # https://circleci.com/developer/orbs/orb/circleci/windows
-  windows: circleci/windows@2
-
 executors:
   cy-doc:
     docker:
@@ -20,6 +16,13 @@ executors:
       xcode: "10.1.0"
     environment:
       TERM: "xterm"
+  win:
+    # copied the parameters from
+    # https://circleci.com/developer/orbs/orb/circleci/windows
+    machine:
+      image: "windows-server-2019-vs2019:stable"
+      resource_class: "windows.medium"
+      shell: "bash.exe"
 
 commands:
   set-failed-status:
@@ -118,9 +121,7 @@ jobs:
           path: ~/.npm/_logs
 
   kitchensink-windows:
-    executor:
-      name: windows/default
-      shell: bash.exe
+    executor: win
     steps:
       - prepare
       - run:
@@ -132,9 +133,7 @@ jobs:
           path: ~/.npm/_logs
 
   kitchensink-windows-chrome:
-    executor:
-      name: windows/default
-      shell: bash.exe
+    executor: win
     steps:
       - prepare
       - run:
@@ -341,7 +340,7 @@ jobs:
       - set-passed-status
 
   after-tests-windows:
-    executor: windows/default
+    executor: win
     steps:
       - checkout
       - early-stop:
