@@ -132,11 +132,12 @@ jobs:
       - store_artifacts:
           path: ~/.npm/_logs
 
-  # if only there was Chrome installed on CircleCI Windows machine!
   kitchensink-windows-chrome:
     executor: win
     steps:
       - prepare
+      # install Chrome browser on Windows machine using Chocolatey
+      - run: choco install googlechrome
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows:chrome
           timeout: '3 minutes'
@@ -374,10 +375,12 @@ mac-workflow: &mac-workflow
 win-workflow: &win-workflow
   jobs:
     - kitchensink-windows
+    - kitchensink-windows-chrome
     - after-tests-windows:
         context: test-runner:commit-status-checks
         requires:
           - kitchensink-windows
+          - kitchensink-windows-chrome
 
 workflows:
   version: 2
