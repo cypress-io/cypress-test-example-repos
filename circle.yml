@@ -73,10 +73,18 @@ commands:
 
   prepare:
     description: Install dependencies and tools
+    parameters:
+      substring:
+        type: string
+        description: String to search for in the commit subject to skip build
+        default: Testing new win32
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new win32
+      - when:
+          condition: << parameters.substring >>
+          steps:
+            - early-stop:
+                substring: << parameters.substring >>
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
       - run: npm install
@@ -123,7 +131,13 @@ jobs:
   kitchensink-windows:
     executor: win
     steps:
-      - prepare
+      - early-stop:
+          substring: Testing new darwin
+      - early-stop:
+          substring: Testing new linux
+      # pass empty substring to skip the default commit checks
+      - prepare:
+          substring:
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
           timeout: '3 minutes'
@@ -135,7 +149,12 @@ jobs:
   kitchensink-windows-chrome:
     executor: win
     steps:
-      - prepare
+      - early-stop:
+          substring: Testing new darwin
+      - early-stop:
+          substring: Testing new linux
+      - prepare:
+          substring: ''
       # install Chrome browser on Windows machine using Chocolatey
       - run: choco install googlechrome
       - run:
