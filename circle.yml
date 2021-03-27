@@ -45,6 +45,7 @@ commands:
           name: Set status check
           command: $(npm bin)/set-status --state success --description "on CircleCI"
 
+  # Note: requires a git repo, thus should run AFTER checkout
   early-stop:
     description: |
       Early halt if this commit is for testing binaries for different platform
@@ -67,24 +68,62 @@ commands:
               circleci step halt
             fi
 
+  stop-if-not-windows-build:
+    description: Stops this job if the commit is not testing Windows build
+    steps:
+      - early-stop:
+          substring: Testing new darwin
+      - early-stop:
+          substring: Testing new linux
+
+  stop-if-not-mac-build:
+    description: Stops this job if the commit is not testing Mac build
+    steps:
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
+
+  stop-if-not-linux-build:
+    description: Stops this job if the commit is not testing Linux build
+    steps:
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new darwin
+
   install-tools:
     steps:
       - run: npm install @cypress/commit-message-install@3
 
-  prepare:
-    description: Install dependencies and tools
+  load-cache:
+    description: Loads saved node modules cache
     steps:
-      - checkout
-      - early-stop:
-          substring: Testing new win32
       - restore_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - install-tools
+
+  save-cache:
+    description: Saves the node modules cache
+    steps:
       - save_cache:
           key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
+
+  setup:
+    description: Installs tools after we verified that we should run this job
+    steps:
+      - load-cache
+      - run: npm install
+      - install-tools
+      - save-cache
+
+  prepare:
+    description: Install dependencies and tools on Linux
+    steps:
+      - checkout
+      - stop-if-not-linux-build
+      - setup
 
   store-npm-logs:
     description: Save any NPM error logs as artifacts
@@ -120,10 +159,26 @@ jobs:
       - store_artifacts:
           path: ~/.npm/_logs
 
+  kitchensink-mac:
+    executor: mac
+    steps:
+      - checkout
+      - stop-if-not-mac-build
+      - setup
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink
+          timeout: '3 minutes'
+      - set-failed-status
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
+
   kitchensink-windows:
     executor: win
     steps:
-      - prepare
+      - checkout
+      - stop-if-not-windows-build
+      - setup
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
           timeout: '3 minutes'
@@ -135,7 +190,9 @@ jobs:
   kitchensink-windows-chrome:
     executor: win
     steps:
-      - prepare
+      - checkout
+      - stop-if-not-windows-build
+      - setup
       # install Chrome browser on Windows machine using Chocolatey
       - run: choco install googlechrome
       - run:
@@ -187,6 +244,18 @@ jobs:
     <<: *defaults
     steps:
       - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          timeout: '3 minutes'
+      - set-failed-status
+      - store-npm-logs
+
+  todomvc-mac:
+    executor: mac
+    steps:
+      - checkout
+      - stop-if-not-mac-build
+      - setup
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
           timeout: '3 minutes'
@@ -319,11 +388,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      # stop running this job if testing Mac or Windows commit
-      - early-stop:
-          substring: Testing new darwin
-      - early-stop:
-          substring: Testing new win32
+      - stop-if-not-linux-build
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
@@ -333,10 +398,7 @@ jobs:
     executor: mac
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new linux
+      - stop-if-not-mac-build
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
@@ -345,10 +407,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new linux
-      - early-stop:
-          substring: Testing new darwin
+      - stop-if-not-windows-build
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
@@ -358,19 +417,15 @@ jobs:
 # the status check security context with those environment variables
 mac-workflow: &mac-workflow
   jobs:
-    - kitchensink:
-        name: "kitchensink mac"
+    - kitchensink-mac:
         context: test-runner:commit-status-checks
-        executor: mac
-    - todomvc:
-        name: "todomvc mac"
+    - todomvc-mac:
         context: test-runner:commit-status-checks
-        executor: mac
     - after-tests-mac:
         context: test-runner:commit-status-checks
         requires:
-          - kitchensink mac
-          - todomvc mac
+          - kitchensink-mac
+          - todomvc-mac
 
 win-workflow: &win-workflow
   jobs:
