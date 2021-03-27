@@ -68,13 +68,29 @@ commands:
               circleci step halt
             fi
 
-  run-only-on-windows:
+  stop-if-not-windows-build:
     description: Stops this job if the commit is not testing Windows build
     steps:
       - early-stop:
           substring: Testing new darwin
       - early-stop:
           substring: Testing new linux
+
+  stop-if-not-mac-build:
+    description: Stops this job if the commit is not testing Mac build
+    steps:
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
+
+  stop-if-not-linux-build:
+    description: Stops this job if the commit is not testing Linux build
+    steps:
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new darwin
 
   install-tools:
     steps:
@@ -106,10 +122,7 @@ commands:
     description: Install dependencies and tools on Linux
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new darwin
+      - stop-if-not-linux-build
       - setup
 
   store-npm-logs:
@@ -150,10 +163,7 @@ jobs:
     executor: mac
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new linux
+      - stop-if-not-mac-build
       - setup
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink
@@ -167,7 +177,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - run-only-on-windows
+      - stop-if-not-windows-build
       - setup
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
@@ -181,7 +191,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - run-only-on-windows
+      - stop-if-not-windows-build
       - setup
       # install Chrome browser on Windows machine using Chocolatey
       - run: choco install googlechrome
@@ -244,10 +254,7 @@ jobs:
     executor: mac
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new linux
+      - stop-if-not-mac-build
       - setup
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
@@ -381,11 +388,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      # stop running this job if testing Mac or Windows commit
-      - early-stop:
-          substring: Testing new darwin
-      - early-stop:
-          substring: Testing new win32
+      - stop-if-not-linux-build
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
@@ -395,10 +398,7 @@ jobs:
     executor: mac
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new win32
-      - early-stop:
-          substring: Testing new linux
+      - stop-if-not-mac-build
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
@@ -407,7 +407,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - run-only-on-windows
+      - stop-if-not-windows-build
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
