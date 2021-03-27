@@ -45,6 +45,7 @@ commands:
           name: Set status check
           command: $(npm bin)/set-status --state success --description "on CircleCI"
 
+  # Note: requires a git repo, thus should run AFTER checkout
   early-stop:
     description: |
       Early halt if this commit is for testing binaries for different platform
@@ -66,6 +67,14 @@ commands:
               echo Found string "<< parameters.substring >>"
               circleci step halt
             fi
+
+  run-only-on-windows:
+    description: Stops this job if the commit is not testing Windows build
+    steps:
+      - early-stop:
+          substring: Testing new darwin
+      - early-stop:
+          substring: Testing new linux
 
   install-tools:
     steps:
@@ -94,19 +103,13 @@ commands:
       - save-cache
 
   prepare:
-    description: Install dependencies and tools
-    parameters:
-      substring:
-        type: string
-        description: String to search for in the commit subject to skip build
-        default: Testing new win32
+    description: Install dependencies and tools on Linux
     steps:
       - checkout
-      - when:
-          condition: << parameters.substring >>
-          steps:
-            - early-stop:
-                substring: << parameters.substring >>
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new darwin
       - setup
 
   store-npm-logs:
@@ -164,10 +167,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new darwin
-      - early-stop:
-          substring: Testing new linux
+      - run-only-on-windows
       - setup
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
@@ -181,10 +181,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new darwin
-      - early-stop:
-          substring: Testing new linux
+      - run-only-on-windows
       - setup
       # install Chrome browser on Windows machine using Chocolatey
       - run: choco install googlechrome
@@ -410,10 +407,7 @@ jobs:
     executor: win
     steps:
       - checkout
-      - early-stop:
-          substring: Testing new linux
-      - early-stop:
-          substring: Testing new darwin
+      - run-only-on-windows
       # we only need a single NPM package for status check
       - install-tools
       - set-passed-status
