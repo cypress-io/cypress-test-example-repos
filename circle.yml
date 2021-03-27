@@ -71,6 +71,28 @@ commands:
     steps:
       - run: npm install @cypress/commit-message-install@3
 
+  load-cache:
+    description: Loads saved node modules cache
+    steps:
+      - restore_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-
+
+  save-cache:
+    description: Saves the node modules cache
+    steps:
+      - save_cache:
+          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  setup:
+    description: Installs tools after we verified that we should run this job
+    steps:
+      - load-cache
+      - run: npm install
+      - install-tools
+      - save-cache
+
   prepare:
     description: Install dependencies and tools
     parameters:
@@ -85,14 +107,7 @@ commands:
           steps:
             - early-stop:
                 substring: << parameters.substring >>
-      - restore_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-
-      - run: npm install
-      - install-tools
-      - save_cache:
-          key: root-deps-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+      - setup
 
   store-npm-logs:
     description: Save any NPM error logs as artifacts
@@ -128,6 +143,24 @@ jobs:
       - store_artifacts:
           path: ~/.npm/_logs
 
+  kitchensink-mac:
+    executor: mac
+    steps:
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
+      # pass empty substring to skip the default commit checks
+      - prepare:
+          substring: ''
+      - run:
+          command: npm run test-if -- --repo cypress-example-kitchensink
+          timeout: '3 minutes'
+      - set-failed-status
+        # store NPM logs in case there was a problem
+      - store_artifacts:
+          path: ~/.npm/_logs
+
   kitchensink-windows:
     executor: win
     steps:
@@ -137,7 +170,7 @@ jobs:
           substring: Testing new linux
       # pass empty substring to skip the default commit checks
       - prepare:
-          substring:
+          substring: ''
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
           timeout: '3 minutes'
@@ -206,6 +239,22 @@ jobs:
     <<: *defaults
     steps:
       - prepare
+      - run:
+          command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
+          timeout: '3 minutes'
+      - set-failed-status
+      - store-npm-logs
+
+  todomvc-mac:
+    executor: mac
+    steps:
+      - early-stop:
+          substring: Testing new win32
+      - early-stop:
+          substring: Testing new linux
+      # pass empty substring to skip the default commit checks
+      - prepare:
+          substring: ''
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
           timeout: '3 minutes'
@@ -377,19 +426,15 @@ jobs:
 # the status check security context with those environment variables
 mac-workflow: &mac-workflow
   jobs:
-    - kitchensink:
-        name: "kitchensink mac"
+    - kitchensink-mac:
         context: test-runner:commit-status-checks
-        executor: mac
-    - todomvc:
-        name: "todomvc mac"
+    - todomvc-mac:
         context: test-runner:commit-status-checks
-        executor: mac
     - after-tests-mac:
         context: test-runner:commit-status-checks
         requires:
-          - kitchensink mac
-          - todomvc mac
+          - kitchensink-mac
+          - todomvc-mac
 
 win-workflow: &win-workflow
   jobs:
