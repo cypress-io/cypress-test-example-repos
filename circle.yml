@@ -146,13 +146,12 @@ jobs:
   kitchensink-mac:
     executor: mac
     steps:
+      - checkout
       - early-stop:
           substring: Testing new win32
       - early-stop:
           substring: Testing new linux
-      # pass empty substring to skip the default commit checks
-      - prepare:
-          substring: ''
+      - setup
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink
           timeout: '3 minutes'
@@ -164,13 +163,12 @@ jobs:
   kitchensink-windows:
     executor: win
     steps:
+      - checkout
       - early-stop:
           substring: Testing new darwin
       - early-stop:
           substring: Testing new linux
-      # pass empty substring to skip the default commit checks
-      - prepare:
-          substring: ''
+      - setup
       - run:
           command: npm run test-if -- --repo cypress-example-kitchensink --command test:ci:record:windows
           timeout: '3 minutes'
@@ -182,12 +180,12 @@ jobs:
   kitchensink-windows-chrome:
     executor: win
     steps:
+      - checkout
       - early-stop:
           substring: Testing new darwin
       - early-stop:
           substring: Testing new linux
-      - prepare:
-          substring: ''
+      - setup
       # install Chrome browser on Windows machine using Chocolatey
       - run: choco install googlechrome
       - run:
@@ -248,13 +246,12 @@ jobs:
   todomvc-mac:
     executor: mac
     steps:
+      - checkout
       - early-stop:
           substring: Testing new win32
       - early-stop:
           substring: Testing new linux
-      # pass empty substring to skip the default commit checks
-      - prepare:
-          substring: ''
+      - setup
       - run:
           command: npm run test-if -- --repo cypress-example-todomvc --command test:ci:record
           timeout: '3 minutes'
