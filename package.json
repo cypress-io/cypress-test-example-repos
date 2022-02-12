@@ -42,7 +42,7 @@
     "print-env": "0.1.2",
     "shelljs": "0.8.4",
     "terminal-banner": "1.1.0",
-    "wait-on": "4.0.2"
+    "wait-on": "6.0.1"
   },
   "config": {
     "pre-git": {
