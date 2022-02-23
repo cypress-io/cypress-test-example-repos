@@ -40,7 +40,7 @@
     "parse-github-repo-url": "1.4.1",
     "print-arch": "1.0.0",
     "print-env": "0.1.2",
-    "shelljs": "0.8.4",
+    "shelljs": "0.8.5",
     "terminal-banner": "1.1.0",
     "wait-on": "4.0.2"
   },
